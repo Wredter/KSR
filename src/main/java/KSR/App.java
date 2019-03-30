@@ -7,7 +7,8 @@ public class App
     {
         System.out.println( "Hello World!" );
         DataExtarctor dataExtarctor = new DataExtarctor();
-        dataExtarctor.readfromFile();
-        System.out.println(dataExtarctor.linia);
+        dataExtarctor.readfromFile("PLACES");
+        System.out.println("Koniec");
+
     }
 }
