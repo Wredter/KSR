@@ -1,6 +1,6 @@
 package KSR.Similarities;
 
-public class BinaryMethod implements  ISimilarity {
+public class BinarySimilarity implements  ISimilarity {
 
     @Override
     public Double CalculateSimilarity(String word1, String word2) {

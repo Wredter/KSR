@@ -1,6 +1,6 @@
 package KSR.Similarities;
 
-public class NGramMethod implements  ISimilarity {
+public class NGramSimilarity implements  ISimilarity {
     Integer n = 3;
 
     @Override
@@ -20,10 +20,10 @@ public class NGramMethod implements  ISimilarity {
             longWord = word1;
         }
 
-        denominator = 1.0 / (longWord.length() - this.n + 1.0);
+        denominator = longWord.length() - this.n + 1.0;
 
         for(int i = 0; i < denominator; i++) {
-            String nGram = word2.substring(i, n);
+            String nGram = word2.substring(i, i + this.n);
             if(word1.contains(nGram))
             {
                 occurNum++;
