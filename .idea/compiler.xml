@@ -9,5 +9,8 @@
         <module name="KSR" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="KSR" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
