@@ -13,8 +13,12 @@ import java.util.Collections;
 public class DataExtarctor {
     //public String linia;
     private ArrayList<Tekst> teksty;
+    private String dataLocation;
     public DataExtarctor(){
+
         teksty = new ArrayList<>();
+        dataLocation = System.getProperty("user.dir");
+        dataLocation += "\\Data";
     }
     public void readfromFile(String tag){
         tag = "<"+tag+">";
@@ -23,11 +27,12 @@ public class DataExtarctor {
         String tresc = "";
         Tekst obecnyTekst = new Tekst();
 
+
         boolean flaga;
         try {
             String bufferline;
 
-            FileReader fileReader = new FileReader("D:\\Pobierane\\Studia\\sem VI\\KSR\\DANE\\reut2-000.sgm");
+            FileReader fileReader = new FileReader(dataLocation + "\\reut2-000.sgm");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             while ((bufferline = bufferedReader.readLine()) != null){
                 if(bufferline.contains(tag)){
