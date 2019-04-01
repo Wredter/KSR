@@ -1,6 +1,6 @@
 package KSR;
 
-import KSR.DataExtractor.DataExtarctor;
+import KSR.DataOperations.DataExtarctor;
 import KSR.Similarities.BinarySimilarity;
 import KSR.Similarities.NGramSimilarity;
 
