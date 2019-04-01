@@ -4,6 +4,9 @@ import KSR.Basic.Article;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import java.lang.Object;
+
+import org.tartarus.snowball.ext.PorterStemmer;
 
 public class ArticleOperation {
 
@@ -17,7 +20,7 @@ public class ArticleOperation {
         for (Article article : articles) {
             for (String tag : tags) {
                 boolean isContain = article.tags.contains(tag);
-                if(isContain == true) {
+                if (isContain == true) {
                     result.add(article);
                     break;
                 }
@@ -53,7 +56,13 @@ public class ArticleOperation {
     public ArrayList<String> MakeWordsStamization(ArrayList<String> words) {
         ArrayList<String> result = words;
 
-        // to do!!!!!
+        PorterStemmer stemmer = new PorterStemmer();
+
+        for (String word : words) {
+            stemmer.setCurrent(word);
+            stemmer.stem();
+            result.add(stemmer.getCurrent());
+        }
 
         return result;
     }
