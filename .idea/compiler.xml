@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="KSR" target="1.7" />
+      <module name="KSR" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

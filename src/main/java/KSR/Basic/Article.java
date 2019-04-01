@@ -13,8 +13,4 @@ public class Article {
     public Article(ArrayList<String> tags) {
         this.tags = tags;
     }
-
-    public void Prepare(ArrayList<String> stopList) {
-        // Prepare Article
-    }
 }

@@ -1,0 +1,10 @@
+KSR\Basic\Article.class
+KSR\DataOperations\DataExtarctor.class
+KSR\Similarities\BinarySimilarity.class
+KSR\Similarities\ISimilarity.class
+KSR\DataOperations\ArticleOperation.class
+KSR\Metrics\ChebyshevMetric.class
+KSR\Metrics\IMetric.class
+KSR\Similarities\NGramSimilarity.class
+KSR\Metrics\EuclideanMetric.class
+KSR\App.class

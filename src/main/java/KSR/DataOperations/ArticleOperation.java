@@ -3,8 +3,13 @@ package KSR.DataOperations;
 import KSR.Basic.Article;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ArticleOperation {
+
+    public ArticleOperation() {
+
+    }
 
     public static ArrayList<Article> Filter(ArrayList<Article> articles, ArrayList<String> tags) {
         ArrayList<Article> result = new ArrayList<>();
@@ -22,35 +27,33 @@ public class ArticleOperation {
     }
 
     public ArrayList<String> Prepare(ArrayList<String> words, ArrayList<String> stopList) {
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result;
 
         result = this.RemoveNonLetterWords(words);
-        result = this.RemoveWordsContainedInStopList(words, stopList);
-        result = this.MakeWordsStamization(words);
+        result = this.RemoveWordsContainedInStopList(result, stopList);
+        result = this.MakeWordsStamization(result);
 
         return result;
     }
 
     public ArrayList<String> RemoveNonLetterWords(ArrayList<String> words) {
-        ArrayList<String> result = new ArrayList<>();
-
-
-
-        return result;
+        return words
+                .stream().parallel()
+                .filter(word -> word.chars().allMatch(Character::isLetter))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<String> RemoveWordsContainedInStopList(ArrayList<String> words, ArrayList<String> stopList) {
-        ArrayList<String> result = new ArrayList<>();
-
-
-
-        return result;
+        return words
+                .stream().parallel()
+                .filter(word -> !stopList.contains(word))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public ArrayList<String> MakeWordsStamization(ArrayList<String> words) {
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result = words;
 
-
+        // to do!!!!!
 
         return result;
     }
