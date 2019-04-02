@@ -20,6 +20,5 @@ public class App
         BinarySimilarity binarySimilarity = new BinarySimilarity();
         Double s1 = binarySimilarity.CalculateSimilarity("summary", "summary");
         System.out.println(s1);
-
     }
 }

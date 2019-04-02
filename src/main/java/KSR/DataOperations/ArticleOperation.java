@@ -1,12 +1,10 @@
 package KSR.DataOperations;
 
 import KSR.Basic.Article;
+//import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.lang.Object;
-
-import org.tartarus.snowball.ext.PorterStemmer;
 
 public class ArticleOperation {
 
@@ -55,14 +53,14 @@ public class ArticleOperation {
 
     public ArrayList<String> MakeWordsStamization(ArrayList<String> words) {
         ArrayList<String> result = words;
-
-        PorterStemmer stemmer = new PorterStemmer();
-
-        for (String word : words) {
-            stemmer.setCurrent(word);
-            stemmer.stem();
-            result.add(stemmer.getCurrent());
-        }
+//
+//        PorterStemmer stemmer = new PorterStemmer();
+//
+//        for (String word : words) {
+//            stemmer.setCurrent(word);
+//            stemmer.stem();
+//            result.add(stemmer.getCurrent());
+//        }
 
         return result;
     }
