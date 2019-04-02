@@ -1,20 +1,16 @@
-package KSR.View;
+package KSR.GUI;
 
-import KSR.View.Model.DataContext;
+import KSR.GUI.Controller.MainController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class MainWindow extends JFrame {
 
-    public DataContext dataContext;
+    public MainController mainController;
 
     private JPanel MainPanel;
 
@@ -59,15 +55,21 @@ public class MainWindow extends JFrame {
         CreateMainPanelStructure();
         add(MainPanel);
 
-        dataContext = new DataContext();
+        mainController = new MainController();
 
         loadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dataContext.selectedCategory = categoryTextField.getText();
+                mainController.ReadFile();
             }
         });
 
+        filterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.FilterFile(categoryTextField, tagsTextField);
+            }
+        });
     }
 
     public void CreateMainPanelStructure() {

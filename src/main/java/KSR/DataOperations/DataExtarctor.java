@@ -12,7 +12,7 @@ import java.util.Collections;
 
 public class DataExtarctor {
 
-    private ArrayList<Article> articles;
+    public ArrayList<Article> articles;
     private String dataLocation;
 
     public DataExtarctor() {
@@ -22,7 +22,7 @@ public class DataExtarctor {
         dataLocation += "\\Data";
     }
 
-    public void readfromFile(String tag) {
+    public void readfromFile(String tag, String filePath) {
         tag = "<" + tag + ">";
         ArrayList<String> tagi;
         String tytul = "";
@@ -34,7 +34,7 @@ public class DataExtarctor {
         try {
             String bufferline;
 
-            FileReader fileReader = new FileReader(dataLocation + "\\reut2-000.sgm");
+            FileReader fileReader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             while ((bufferline = bufferedReader.readLine()) != null) {
                 if (bufferline.contains(tag)) {
