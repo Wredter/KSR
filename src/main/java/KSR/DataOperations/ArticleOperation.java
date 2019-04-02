@@ -3,7 +3,7 @@ package KSR.DataOperations;
 import KSR.Basic.Article;
 //import org.tartarus.snowball.ext.PorterStemmer;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ArticleOperation {
@@ -18,7 +18,7 @@ public class ArticleOperation {
         for (Article article : articles) {
             for (String tag : tags) {
                 boolean isContain = article.tags.contains(tag);
-                if (isContain == true) {
+                if (isContain) {
                     result.add(article);
                     break;
                 }
@@ -62,6 +62,26 @@ public class ArticleOperation {
 //            result.add(stemmer.getCurrent());
 //        }
 
+        return result;
+    }
+    public ArrayList<String> GenerateStopList(ArrayList<Article> articles, Double occurancePercentage){
+        Map<String,Integer> stopLista = new HashMap<>();
+        ArrayList<String> result = new ArrayList<>();
+        for(Article article : articles){
+            for(String word : article.words){
+                if(stopLista.containsKey(word)){
+                    stopLista.replace(word,stopLista.get(word)+1);
+                }else{
+                    stopLista.put(word,1);
+                }
+            }
+        }
+        Set<String> words = stopLista.keySet();
+        for(String word : words){
+            if(stopLista.get(word) > articles.size()/occurancePercentage){
+                result.add(word);
+            }
+        }
         return result;
     }
 }
