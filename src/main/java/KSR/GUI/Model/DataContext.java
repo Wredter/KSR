@@ -15,6 +15,7 @@ public class DataContext {
     public ArrayList<Article> rawArticles;
 
     public DataContext() {
+        filePath = "";
         selectedTags = new ArrayList<>();
         rawArticles = new ArrayList<>();
     }

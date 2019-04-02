@@ -25,19 +25,24 @@ public class MainController {
             File selectedFile = fileChooser.getSelectedFile();
             dataContext.filePath = selectedFile.getPath();
         } else {
-            JOptionPane.showMessageDialog(null, "Wystąpił problem z plikiem");
+            JOptionPane.showMessageDialog(null, "Wystąpił problem z plikiem.");
         }
     }
 
     public void FilterFile(JTextField category, JTextField tags) {
+        if (dataContext.filePath == "") {
+            JOptionPane.showMessageDialog(null, "Wybierz plik.");
+            return;
+        }
+
         if(category.getText().length() < 1 || category.getText() == null){
-            JOptionPane.showMessageDialog(null, "Nieprawidłowa kategoria");
+            JOptionPane.showMessageDialog(null, "Nieprawidłowa kategoria.");
             return;
         }
         dataContext.selectedCategory = category.getText();
 
         if(tags.getText().length() < 1 || tags.getText() == null){
-            JOptionPane.showMessageDialog(null, "Nieprawidłowe tagi");
+            JOptionPane.showMessageDialog(null, "Nieprawidłowe tagi.");
             return;
         }
 
