@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public class PreparedArticle {
     public ArrayList<String> words;
-    public String tag;
-    public ArrayList<String> title;
+    public ArrayList<String> tags;
 
     public ArticleOperation operation = new ArticleOperation();
 
-    public PreparedArticle(Article article, String tag, ArrayList<String> stopList) {
-        this.tag = tag;
+    public PreparedArticle(Article article, ArrayList<String> listOfTags, ArrayList<String> stopList) {
+        tags = new ArrayList<>();
+        this.tags = listOfTags;
         words = operation.Prepare(article.words, stopList);
     }
 

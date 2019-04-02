@@ -1,6 +1,7 @@
 package KSR.GUI.Model;
 
 import KSR.Basic.Article;
+import KSR.Basic.PreparedArticle;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,11 @@ public class DataContext {
     public ArrayList<String> selectedTags;
     // List of "raw" articles after filtered
     public ArrayList<Article> rawArticles;
+    // Stoplist, simple heh :)
+    public ArrayList<String> stopList;
+    // List of articles after divide and prepared
+    public ArrayList<PreparedArticle> treningArticles = null;
+    public ArrayList<PreparedArticle> testArticles = null;
 
     public DataContext() {
         filePath = "";

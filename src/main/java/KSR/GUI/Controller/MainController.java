@@ -1,5 +1,6 @@
 package KSR.GUI.Controller;
 
+import KSR.Basic.PreparedArticle;
 import KSR.DataOperations.ArticleOperation;
 import KSR.DataOperations.DataExtarctor;
 import KSR.GUI.Model.DataContext;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 
 public class MainController {
     public DataContext dataContext;
+    private ArticleOperation articleOperation;
 
     public MainController() {
         dataContext = new DataContext();
+        articleOperation = new ArticleOperation();
     }
 
     public void ReadFile() {
@@ -35,13 +38,13 @@ public class MainController {
             return;
         }
 
-        if(category.getText().length() < 1 || category.getText() == null){
+        if (category.getText().length() < 1 || category.getText() == null) {
             JOptionPane.showMessageDialog(null, "Nieprawidłowa kategoria.");
             return;
         }
         dataContext.selectedCategory = category.getText();
 
-        if(tags.getText().length() < 1 || tags.getText() == null){
+        if (tags.getText().length() < 1 || tags.getText() == null) {
             JOptionPane.showMessageDialog(null, "Nieprawidłowe tagi.");
             return;
         }
@@ -57,6 +60,27 @@ public class MainController {
         dataContext.rawArticles = dataExtarctor.articles;
 
         dataContext.rawArticles = ArticleOperation.Filter(dataContext.rawArticles, dataContext.selectedTags);
+    }
+
+    public void GenerateStopList() {
+        dataContext.stopList = articleOperation.GenerateStopList(dataContext.rawArticles, 0.2);
+    }
+
+    public void PrepareArticles(Integer treningNum) {
+        dataContext.treningArticles = new ArrayList<>();
+        dataContext.testArticles = new ArrayList<>();
+
+        treningNum = (dataContext.rawArticles.size() * treningNum / 100);
+
+        for (int i = 0; i < treningNum; i++) {
+            dataContext.treningArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.selectedTags, dataContext.stopList));
+        }
+
+        for (int i = treningNum; i < dataContext.rawArticles.size(); i++) {
+            dataContext.testArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.selectedTags, dataContext.stopList));
+        }
+
+        String x = "x";
     }
 
 

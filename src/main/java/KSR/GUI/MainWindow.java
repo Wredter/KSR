@@ -4,6 +4,7 @@ import KSR.GUI.Controller.MainController;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,6 +64,34 @@ public class MainWindow extends JFrame {
                 mainController.FilterFile(categoryTextField, tagsTextField);
             }
         });
+
+        loadStopListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.GenerateStopList();
+            }
+        });
+
+        prepareButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Integer treningNum = Integer.parseInt(treningDataTextField.getText());
+                Integer testNum = Integer.parseInt(testDataTextField.getText());
+                if(treningNum >= 100 || testNum >= 100) {
+                    JOptionPane.showMessageDialog(null, "Nieprawidłowa wartość.");
+                    return;
+                }
+                else if((treningNum + testNum) != 100) {
+                    testNum = 100 - treningNum;
+                    testDataTextField.setText(String.valueOf(testNum));
+                    return;
+                }
+
+                mainController.PrepareArticles(treningNum);
+
+            }
+        });
+
     }
 
     public void CreateMainPanelStructure() {
