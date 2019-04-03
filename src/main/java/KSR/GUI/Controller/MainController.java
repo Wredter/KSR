@@ -1,8 +1,10 @@
 package KSR.GUI.Controller;
 
+import KSR.Basic.KeyWord;
 import KSR.Basic.PreparedArticle;
 import KSR.DataOperations.ArticleOperation;
 import KSR.DataOperations.DataExtarctor;
+import KSR.Features.TrainingService;
 import KSR.GUI.Model.DataContext;
 
 import javax.swing.*;
@@ -79,9 +81,21 @@ public class MainController {
         for (int i = treningNum; i < dataContext.rawArticles.size(); i++) {
             dataContext.testArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.selectedTags, dataContext.stopList));
         }
-
-        String x = "x";
     }
 
+    public void Train(JTextField KeyWordsNumTextField) {
+        TrainingService trainingService = new TrainingService(dataContext.selectedCategory, dataContext.selectedTags, dataContext.treningArticles);
+        Integer keyWordsCount = Integer.parseInt(KeyWordsNumTextField.getText());
+        trainingService.Train(keyWordsCount);
+
+        for (String tag : dataContext.selectedTags) {
+            for (String word : trainingService.keyWords.get(tag)) {
+                dataContext.keyWords.add(new KeyWord(tag, word));
+            }
+        }
+
+        // I THINK WE SHOULD PUT FEATURES EXTRACTION DEFINITION THERE -> KEY WORDS USAGE
+
+    }
 
 }

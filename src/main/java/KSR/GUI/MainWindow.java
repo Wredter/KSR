@@ -29,12 +29,15 @@ public class MainWindow extends JFrame {
     private JTextField testDataTextField;
     private JButton prepareButton;
 
-    private JPanel RightPanel;
     private JPanel TeachPanel;
+    private JTextField KeyWordsNumTextField;
+    private JButton trainButton;
+
     private JPanel ClassificationPanel;
 
+    private JPanel RightPanel;
+
     private JButton button2;
-    private JButton button3;
     private JButton button4;
 
 
@@ -92,6 +95,12 @@ public class MainWindow extends JFrame {
             }
         });
 
+        trainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.Train(KeyWordsNumTextField);
+            }
+        });
     }
 
     public void CreateMainPanelStructure() {
