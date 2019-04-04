@@ -106,6 +106,7 @@ public class ArticleOperation {
                     result.add(stopWord);
                 }
             }
+            bufferedReader.close();
         }catch (FileNotFoundException e){
             System.out.println("Nie udało się otworzyć pliku");
         }catch (IOException e){
