@@ -23,11 +23,10 @@ public class TrainingService {
     }
 
     public void Train(Integer keyWordsCount, String selectedExtractor) {
-        //Map<String, ArrayList<String>> keyWords = new HashMap<>();
-        Map<String, Double> wordsMap = new HashMap<>();
-        ArrayList<String> sortedWords = new ArrayList<>();
-
         for (String tag : tags) {
+            Map<String, Double> wordsMap = new HashMap<>();
+            ArrayList<String> sortedWords = new ArrayList<>();
+
             ArrayList<PreparedArticle> filteredArticles = this.articles.stream().parallel()
                     .filter(t -> t.tags.contains(tag))
                     .collect(Collectors.toCollection(ArrayList::new));
