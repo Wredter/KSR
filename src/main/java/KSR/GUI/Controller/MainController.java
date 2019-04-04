@@ -75,11 +75,15 @@ public class MainController {
         treningNum = (dataContext.rawArticles.size() * treningNum / 100);
 
         for (int i = 0; i < treningNum; i++) {
-            dataContext.treningArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.selectedTags, dataContext.stopList));
+            if (dataContext.rawArticles.get(i).tags.size() == 1) {
+                dataContext.treningArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.rawArticles.get(i).tags, dataContext.stopList));
+            }
         }
 
         for (int i = treningNum; i < dataContext.rawArticles.size(); i++) {
-            dataContext.testArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.selectedTags, dataContext.stopList));
+            if (dataContext.rawArticles.get(i).tags.size() == 1) {
+                dataContext.testArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.rawArticles.get(i).tags, dataContext.stopList));
+            }
         }
     }
 
