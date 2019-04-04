@@ -4,7 +4,6 @@ import KSR.GUI.Controller.MainController;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +29,8 @@ public class MainWindow extends JFrame {
     private JButton prepareButton;
 
     private JPanel TeachPanel;
-    private JTextField KeyWordsNumTextField;
+    private JComboBox extractionMethodCcomboBox;
+    private JTextField keyWordsNumTextField;
     private JButton trainButton;
 
     private JPanel ClassificationPanel;
@@ -98,14 +98,19 @@ public class MainWindow extends JFrame {
         trainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.Train(KeyWordsNumTextField);
+                String selectedExtractor = (String) extractionMethodCcomboBox.getSelectedItem();
+                if(selectedExtractor == "liczby słów") {
+                    selectedExtractor = "WordsNumber";
+                } else {
+                    selectedExtractor = "WordsFrequency";
+                }
+               mainController.Train(keyWordsNumTextField, selectedExtractor);
             }
         });
     }
 
     public void CreateMainPanelStructure() {
         MainPanel.setLayout(new GridLayout(1, 2));
-        MainPanel.setBackground(Color.red);
 
         CreateLeftPanelStructure();
         MainPanel.add(LeftPanel);
@@ -121,7 +126,9 @@ public class MainWindow extends JFrame {
         title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Dane");
         DataPanel.setBorder(title);
         DataPanel.setLayout(new GridLayout(1, 2, 10, 0));
+        //DataLeftPanel.setBackground(Color.getHSBColor(50, 50, 50));
         DataPanel.add(DataLeftPanel);
+        //DataRightPanel.setBackground(Color.getHSBColor(50, 50, 50));
         DataPanel.add(DataRightPanel);
         LeftPanel.add(DataPanel);
 
@@ -132,6 +139,10 @@ public class MainWindow extends JFrame {
         title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Klasyfikacja");
         ClassificationPanel.setBorder(title);
         LeftPanel.add(ClassificationPanel);
+
+        extractionMethodCcomboBox.addItem("liczby słów");
+        extractionMethodCcomboBox.addItem("częstotliwości występowania słów");
+
     }
 
     public void CreateRightPanelStructure() {
