@@ -3,6 +3,10 @@ package KSR.DataOperations;
 import KSR.Basic.Article;
 //import org.tartarus.snowball.ext.PorterStemmer;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -77,6 +81,7 @@ public class ArticleOperation {
     public ArrayList<String> GenerateStopList(ArrayList<Article> articles, Double occurancePercentage) {
         Map<String, Integer> stopLista = new HashMap<>();
         ArrayList<String> result = new ArrayList<>();
+
         for (Article article : articles) {
             for (String word : article.words) {
                 if (stopLista.containsKey(word)) {
@@ -91,6 +96,20 @@ public class ArticleOperation {
             if (stopLista.get(word) > articles.size() * occurancePercentage || stopLista.get(word) == 1) {
                 result.add(word);
             }
+        }
+        try {
+            FileReader fileReader = new FileReader(System.getProperty("user.dir")+"\\Data\\stopwords.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String stopWord;
+            while ((stopWord = bufferedReader.readLine()) != null) {
+                if(!result.contains(stopWord)){
+                    result.add(stopWord);
+                }
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("Nie udało się otworzyć pliku");
+        }catch (IOException e){
+            e.printStackTrace();
         }
         return result;
     }
