@@ -65,7 +65,7 @@ public class MainController {
     }
 
     public void GenerateStopList() {
-        dataContext.stopList = articleOperation.GenerateStopList(dataContext.rawArticles, 0.2);
+        dataContext.stopList = articleOperation.GenerateStopList(dataContext.rawArticles, 0.05);
     }
 
     public void PrepareArticles(Integer treningNum) {
