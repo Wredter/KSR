@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class DataContext {
     // Path to selected file
     public String filePath;
+    public ArrayList<String> filePaths;
     // Catagory selected before filter
     public String selectedCategory;
     // Tags selected before filter
@@ -28,5 +29,6 @@ public class DataContext {
         selectedTags = new ArrayList<>();
         rawArticles = new ArrayList<>();
         keyWords = new ArrayList<>();
+        filePaths = new ArrayList<>();
     }
 }

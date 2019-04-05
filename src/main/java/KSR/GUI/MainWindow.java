@@ -63,14 +63,14 @@ public class MainWindow extends JFrame {
         loadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.ReadFile();
+                mainController.ReadMultipleFiles();//podmieniłem metodę na multifile
             }
         });
 
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.FilterFile(categoryTextField, tagsTextField);
+                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);//podmieniłem metodę na multifile
             }
         });
 

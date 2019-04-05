@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.xml.crypto.Data;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainController {
     public DataContext dataContext;
@@ -36,6 +37,19 @@ public class MainController {
             dataContext.filePath = selectedFile.getPath();
         } else {
             JOptionPane.showMessageDialog(null, "Wystąpił problem z plikiem.");
+        }
+    }
+    public void ReadMultipleFiles(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(true);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("SGM FILES", "sgm");
+        fileChooser.setFileFilter(filter);
+        int retV = fileChooser.showOpenDialog(null);
+        if(retV == JFileChooser.APPROVE_OPTION){
+            File[] selectedFiles = fileChooser.getSelectedFiles();
+            for(File file : selectedFiles){
+                dataContext.filePaths.add(file.getPath());
+            }
         }
     }
 
@@ -68,6 +82,39 @@ public class MainController {
 
         dataContext.rawArticles = ArticleOperation.Filter(dataContext.rawArticles, dataContext.selectedTags);
     }
+
+    public void FilterMultipleFiles(JTextField category, JTextField tags) {
+        if (dataContext.filePaths == null) {
+            JOptionPane.showMessageDialog(null, "Wybierz plik.");
+            return;
+        }
+
+        if (category.getText().length() < 1 || category.getText() == null) {
+            JOptionPane.showMessageDialog(null, "Nieprawidłowa kategoria.");
+            return;
+        }
+        dataContext.selectedCategory = category.getText();
+
+        if (tags.getText().length() < 1 || tags.getText() == null) {
+            JOptionPane.showMessageDialog(null, "Nieprawidłowe tagi.");
+            return;
+        }
+
+        String rawTags = tags.getText();
+        String[] listOfTags = rawTags.split("\\s+");
+        for (String t : listOfTags) {
+            dataContext.selectedTags.add(t);
+        }
+
+        DataExtarctor dataExtarctor = new DataExtarctor();
+        for(String path : dataContext.filePaths){
+            dataExtarctor.readfromFile(dataContext.selectedCategory, path);
+            dataContext.rawArticles.addAll(dataExtarctor.articles);
+        }
+
+        dataContext.rawArticles = ArticleOperation.Filter(dataContext.rawArticles, dataContext.selectedTags);
+    }
+
 
     public void GenerateStopList() {
         dataContext.stopList = articleOperation.GenerateStopList(dataContext.rawArticles, 0.05);
