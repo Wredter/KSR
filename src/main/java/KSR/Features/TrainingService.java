@@ -102,4 +102,21 @@ public class TrainingService {
 
         return distinctWords;
     }
+
+    private Map<String,Double> CalculateWordPlacement(ArrayList<PreparedArticle> selectedArticles){
+        Map<String, Double> distinctWords = new HashMap<>();
+        Double fraction;
+
+        for(PreparedArticle article : selectedArticles){
+            for(String word : article.words){
+                fraction = (double) article.words.indexOf(word)/(double) article.words.size();
+                if(!distinctWords.containsKey(word)){
+                    distinctWords.put(word,fraction);
+                }else{
+                    distinctWords.replace(word,distinctWords.get(word)+fraction);
+                }
+            }
+        }
+        return distinctWords;
+    }
 }
