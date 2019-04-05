@@ -4,6 +4,7 @@ import KSR.GUI.Controller.MainController;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,8 +38,13 @@ public class MainWindow extends JFrame {
 
     private JPanel RightPanel;
 
-    private JButton button2;
+    private JPanel KeyWordPanel;
+    private JTable keyWordsTable;
+
+    private JPanel ClassificationResultPanel;
+
     private JButton button4;
+    private JButton resetButton;
 
 
     public MainWindow() {
@@ -80,11 +86,10 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Integer treningNum = Integer.parseInt(treningDataTextField.getText());
                 Integer testNum = Integer.parseInt(testDataTextField.getText());
-                if(treningNum >= 100 || testNum >= 100) {
+                if (treningNum >= 100 || testNum >= 100) {
                     JOptionPane.showMessageDialog(null, "Nieprawidłowa wartość.");
                     return;
-                }
-                else if((treningNum + testNum) != 100) {
+                } else if ((treningNum + testNum) != 100) {
                     testNum = 100 - treningNum;
                     testDataTextField.setText(String.valueOf(testNum));
                     return;
@@ -99,12 +104,26 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedExtractor = (String) extractionMethodCcomboBox.getSelectedItem();
-                if(selectedExtractor == "liczby słów") {
+                if (selectedExtractor == "Liczby słów") {
                     selectedExtractor = "WordsNumber";
                 } else {
                     selectedExtractor = "WordsFrequency";
                 }
-               mainController.Train(keyWordsNumTextField, selectedExtractor);
+                mainController.Train(keyWordsNumTextField, selectedExtractor);
+
+                keyWordsTable.setModel(mainController.CreateKeyWordsTable());
+            }
+        });
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.HardReset();
+                categoryTextField.setText("");
+                tagsTextField.setText("");
+                treningDataTextField.setText("60");
+                testDataTextField.setText("40");
+                keyWordsNumTextField.setText("20");
+                keyWordsTable.setModel(new DefaultTableModel());
             }
         });
     }
@@ -126,9 +145,7 @@ public class MainWindow extends JFrame {
         title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Dane");
         DataPanel.setBorder(title);
         DataPanel.setLayout(new GridLayout(1, 2, 10, 0));
-        //DataLeftPanel.setBackground(Color.getHSBColor(50, 50, 50));
         DataPanel.add(DataLeftPanel);
-        //DataRightPanel.setBackground(Color.getHSBColor(50, 50, 50));
         DataPanel.add(DataRightPanel);
         LeftPanel.add(DataPanel);
 
@@ -140,15 +157,22 @@ public class MainWindow extends JFrame {
         ClassificationPanel.setBorder(title);
         LeftPanel.add(ClassificationPanel);
 
-        extractionMethodCcomboBox.addItem("liczby słów");
-        extractionMethodCcomboBox.addItem("częstotliwości występowania słów");
+        extractionMethodCcomboBox.addItem("Liczby słów");
+        extractionMethodCcomboBox.addItem("Częstotliwości występowania słów");
 
     }
 
     public void CreateRightPanelStructure() {
-        TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Wynik");
-        RightPanel.setLayout(new GridLayout(1, 1));
-        RightPanel.setBorder(title);
+        TitledBorder title;
+        RightPanel.setLayout(new GridLayout(1, 2));
+
+        title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Słowa kluczowe");
+        KeyWordPanel.setBorder(title);
+        RightPanel.add(KeyWordPanel);
+
+        title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Klasyfikacja");
+        ClassificationResultPanel.setBorder(title);
+        RightPanel.add(ClassificationResultPanel);
     }
 
 }

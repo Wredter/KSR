@@ -9,6 +9,11 @@ import KSR.GUI.Model.DataContext;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -100,6 +105,30 @@ public class MainController {
 
         // I THINK WE SHOULD PUT FEATURES EXTRACTION DEFINITION THERE -> KEY WORDS USAGE
 
+    }
+
+    public DefaultTableModel CreateKeyWordsTable() {
+        JTable keyWordsTable = new JTable();
+        DefaultTableModel rowModel = new DefaultTableModel(new String[]{"No.", "Tag", "Słowo kluczowe"}, 0);
+
+        keyWordsTable.setModel(rowModel);
+
+        for (int i = 0; i < dataContext.keyWords.size(); i++) {
+            rowModel.addRow(
+                    new Object[]{
+                            i+1,
+                            dataContext.keyWords.get(i).tag,
+                            dataContext.keyWords.get(i).word
+                    }
+            );
+        }
+
+        return rowModel;
+    }
+
+    public void HardReset() {
+        DataContext newDataContext = new DataContext();
+        dataContext = newDataContext;
     }
 
 }
