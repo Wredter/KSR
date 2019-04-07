@@ -99,18 +99,18 @@ public class ArticleOperation {
             }
         }
         try {
-            FileReader fileReader = new FileReader(System.getProperty("user.dir")+"\\Data\\stopwords.txt");
+            FileReader fileReader = new FileReader(System.getProperty("user.dir") + "\\Data\\stopwords.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String stopWord;
             while ((stopWord = bufferedReader.readLine()) != null) {
-                if(!result.contains(stopWord)){
+                if (!result.contains(stopWord)) {
                     result.add(stopWord);
                 }
             }
             bufferedReader.close();
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Nie udało się otworzyć pliku");
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return result;

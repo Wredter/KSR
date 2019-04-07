@@ -5,6 +5,10 @@ import KSR.Basic.PreparedArticle;
 import KSR.Classification.KNNService;
 import KSR.DataOperations.ArticleOperation;
 import KSR.DataOperations.DataExtarctor;
+import KSR.FeatureExtractors.IFeatureExtractor;
+import KSR.FeatureExtractors.PositionFeatureExtractor;
+import KSR.FeatureExtractors.QuantityFeatureExtractor;
+import KSR.Features.FeaturesService;
 import KSR.Features.TrainingService;
 import KSR.GUI.Model.DataContext;
 import KSR.Metrics.ChebyshevMetric;
@@ -25,6 +29,7 @@ import javax.xml.crypto.Data;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class MainController {
     public DataContext dataContext;
@@ -54,15 +59,15 @@ public class MainController {
         }
     }
 
-    public void ReadMultipleFiles(){
+    public void ReadMultipleFiles() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("SGM FILES", "sgm");
         fileChooser.setFileFilter(filter);
         int retV = fileChooser.showOpenDialog(null);
-        if(retV == JFileChooser.APPROVE_OPTION){
+        if (retV == JFileChooser.APPROVE_OPTION) {
             File[] selectedFiles = fileChooser.getSelectedFiles();
-            for(File file : selectedFiles){
+            for (File file : selectedFiles) {
                 dataContext.filePaths.add(file.getPath());
             }
         }
@@ -122,7 +127,7 @@ public class MainController {
         }
 
         DataExtarctor dataExtarctor = new DataExtarctor();
-        for(String path : dataContext.filePaths){
+        for (String path : dataContext.filePaths) {
             dataExtarctor.readfromFile(dataContext.selectedCategory, path);
             dataContext.rawArticles.addAll(dataExtarctor.articles);
         }
@@ -155,10 +160,10 @@ public class MainController {
     }
 
     public void PrepareArticles() {
-        for(PreparedArticle art : dataContext.treningArticles) {
+        for (PreparedArticle art : dataContext.treningArticles) {
             art.words = articleOperation.Prepare(art.words, dataContext.stopList);
         }
-        for(PreparedArticle art : dataContext.testArticles) {
+        for (PreparedArticle art : dataContext.testArticles) {
             art.words = articleOperation.Prepare(art.words, dataContext.stopList);
         }
     }
@@ -175,9 +180,6 @@ public class MainController {
         }
 
         dataContext.keyWordsMap = trainingService.keyWords;
-
-        // I THINK WE SHOULD PUT FEATURES EXTRACTION DEFINITION THERE -> KEY WORDS USAGE
-
     }
 
     public DefaultTableModel CreateKeyWordsTable() {
@@ -189,7 +191,7 @@ public class MainController {
         for (int i = 0; i < dataContext.keyWords.size(); i++) {
             rowModel.addRow(
                     new Object[]{
-                            i+1,
+                            i + 1,
                             dataContext.keyWords.get(i).tag,
                             dataContext.keyWords.get(i).word
                     }
@@ -199,20 +201,76 @@ public class MainController {
         return rowModel;
     }
 
-    public void Classify(String metric, String k, String amountOfStartData) {
+    public void Classify(String metric, String similarity, String k, String amountOfStartData) {
         IMetric selectedMetric;
+        ISimilarity selectedSimilarity;
         Integer paramK = Integer.parseInt(k);
         Integer amount = Integer.parseInt(amountOfStartData);
 
-        if(metric == "Czebyszewa") {
+        if (metric == "Czebyszewa") {
             selectedMetric = new ChebyshevMetric();
-        } else if(metric =="Euklidesowa") {
+        } else if (metric == "Euklidesowa") {
             selectedMetric = new EuclideanMetric();
         } else {
             selectedMetric = new TaximanMetric();
         }
 
-        knnService = new KNNService(selectedMetric, paramK, amount);
+        if (similarity == "Binarna") {
+            selectedSimilarity = new BinarySimilarity();
+        } else {
+            selectedSimilarity = new NGramSimilarity();
+        }
+
+        ArrayList<IFeatureExtractor> featureExtractors = PrepareFeatureExtractors();
+        FeaturesService featuresService = new FeaturesService(dataContext.keyWordsMap, selectedSimilarity, featureExtractors);
+        knnService = new KNNService(featuresService, selectedMetric, paramK);
+
+        // Prepate to "Cold Start"
+        ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
+        for (String tag : dataContext.selectedTags) {
+            ArrayList<PreparedArticle> temp = dataContext.testArticles.stream()
+                    .filter(t -> t.tags.get(0) == tag)
+                    .collect(Collectors.toCollection(ArrayList::new));
+            coldArticles.addAll(temp);
+            for (PreparedArticle art : temp) {
+                dataContext.testArticles.remove(art);
+            }
+        }
+        knnService.InitKnn(coldArticles);
+
+        Integer all = 0;
+        Integer tp = 0;
+        Integer tn = 0;
+
+        // Start classification
+        for (PreparedArticle art : dataContext.testArticles) {
+            String predictedTag = knnService.ClassifyArticle(art);
+            for(String tag : dataContext.selectedTags) {
+                if(art.tags.get(0) == tag) {
+                    all++;
+                    if(predictedTag == tag) {
+                        tp++;
+                    }
+                } else {
+                    if(predictedTag == tag) {
+                        tn++;
+                    }
+                }
+            }
+        }
+
+        String g = "xd";
+    }
+
+    // Select which features extractors will be used
+    public ArrayList<IFeatureExtractor> PrepareFeatureExtractors() {
+        ArrayList<IFeatureExtractor> result = new ArrayList<>();
+
+        result.add(new PositionFeatureExtractor());
+        result.add(new QuantityFeatureExtractor());
+
+
+        return result;
     }
 
 }

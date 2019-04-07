@@ -149,7 +149,7 @@ public class MainWindow extends JFrame {
         classificationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.Classify((String) metricComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText());
+                mainController.Classify((String) metricComboBox.getSelectedItem(), (String) similaritiesComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText());
             }
         });
     }

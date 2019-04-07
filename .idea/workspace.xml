@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee3e2aef-d7ed-469f-9899-db0e43fa386c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/KSR/Basic/ClassifyArticle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/KSR/Classification/KNNService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/IFeatureExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/IFeatureExtractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/PositionFeatureExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/PositionFeatureExtractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/QuantityFeatureExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/QuantityFeatureExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/Classification/KNNService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/Classification/KNNService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/KSR/GUI/Model/DataContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/KSR/GUI/Model/DataContext.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,8 +20,71 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Classification/KNNService.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="248">
+              <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Basic/ClassifyArticle.java">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
-              <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="241">
+              <caret line="224" column="126" lean-forward="true" selection-start-line="224" selection-start-column="126" selection-end-line="224" selection-end-column="126" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/PositionFeatureExtractor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/IFeatureExtractor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="151" selection-start-line="151" selection-end-line="151" />
             </state>
           </provider>
         </entry>
@@ -35,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+            <state relative-caret-position="391">
+              <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -77,18 +134,18 @@
         <option value="$PROJECT_DIR$/src/main/java/KSR/Training/TrainingService.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/Basic/KeyWord.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/Features/TrainingService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/Basic/PreparedArticle.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/PositionFeatureExtractor.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/QuantityFeatureExtractor.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/IFeatureExtractor.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.form" />
-        <option value="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/GUI/Model/DataContext.java" />
-        <option value="$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/Basic/ClassifyArticle.java" />
+        <option value="$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java" />
+        <option value="$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java" />
+        <option value="$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java" />
         <option value="$PROJECT_DIR$/src/main/java/KSR/Classification/KNNService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java" />
       </list>
     </option>
   </component>
@@ -119,6 +176,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -234,6 +292,16 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="KSR" type="462c0819:PsiDirectoryNode" />
+              <item name="GUI" type="462c0819:PsiDirectoryNode" />
+              <item name="MainWindow" type="e9f4de52:FormNode" />
+            </path>
+            <path>
+              <item name="KSR" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KSR_Repo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="KSR" type="462c0819:PsiDirectoryNode" />
               <item name="Metrics" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -249,13 +317,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="344" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554658956470" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554662972485" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -319,7 +387,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14818764" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -336,12 +404,12 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" weight="0.13965885" />
+      <window_info anchor="right" id="Maven" order="4" visible="true" weight="0.13965885" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
@@ -356,19 +424,32 @@
           <properties />
           <option name="timeStamp" value="25" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java</url>
+          <line>261</line>
+          <properties />
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/KSR/Basic/ClassifyArticle.java</url>
+          <line>14</line>
+          <properties />
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java</url>
+          <line>22</line>
+          <properties />
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java</url>
+          <line>223</line>
+          <properties />
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="rawTags" />
-        <watch expression="dataContext" language="JAVA" />
-        <watch expression="trainingService" language="JAVA" />
-        <watch expression="this.keyWords" language="JAVA" />
-        <watch expression="trainingService" language="JAVA" />
-        <watch expression="stopLista" language="JAVA" />
-        <watch expression="listOfTags" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -488,45 +569,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-151">
-          <caret line="176" column="31" selection-start-line="176" selection-start-column="8" selection-end-line="176" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/IFeatureExtractor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="151" column="131" selection-start-line="151" selection-start-column="131" selection-end-line="151" selection-end-column="131" />
-          <folding>
-            <element signature="e#2541#2542#0" expanded="true" />
-            <element signature="e#2607#2608#0" expanded="true" />
-            <element signature="e#3860#3861#0" expanded="true" />
-            <element signature="e#3925#3926#0" expanded="true" />
-            <element signature="e#4080#4081#0" expanded="true" />
-            <element signature="e#4144#4145#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="30" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Metrics/IMetric.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -534,34 +576,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Basic/ClassifyArticle.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/GUI/MainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="151" selection-start-line="151" selection-end-line="151" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/IFeatureExtractor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="20" column="1" lean-forward="true" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/PositionFeatureExtractor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Features/FeaturesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/FeatureExtractors/PositionFeatureExtractor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Basic/ClassifyArticle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
+        <state relative-caret-position="238">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/DataOperations/ArticleOperation.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/KSR/GUI/Controller/MainController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="39" column="33" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+        <state relative-caret-position="241">
+          <caret line="224" column="126" lean-forward="true" selection-start-line="224" selection-start-column="126" selection-end-line="224" selection-end-column="126" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/KSR/Classification/KNNService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        <state relative-caret-position="248">
+          <caret line="29" column="5" lean-forward="true" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import static java.util.Map.Entry.comparingByValue;
 import static java.util.stream.Collectors.toMap;
-import static jdk.vm.ci.code.CodeUtil.K;
 
 public class KNNService {
     FeaturesService featuresService;
@@ -79,7 +78,6 @@ public class KNNService {
                 .collect(
                         toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new)
                 );
-
 
 
         classifyArticle.predictedTag = distinctNeighborsCount.entrySet().stream().findFirst().get().getKey();

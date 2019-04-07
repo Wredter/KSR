@@ -19,11 +19,9 @@ public class FeaturesService {
         this.featureExtractors = featureExtractors;
     }
 
-    public Map<String, Double> GetFeaturesVector(PreparedArticle article)
-    {
+    public Map<String, Double> GetFeaturesVector(PreparedArticle article) {
         Map<String, Double> features = new HashMap<>();
-        for (IFeatureExtractor featureExtractor : featureExtractors)
-        {
+        for (IFeatureExtractor featureExtractor : featureExtractors) {
             features.putAll(featureExtractor.ExtractFeatures(article, keyWords, similarity));
         }
 
