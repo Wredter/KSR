@@ -5,6 +5,7 @@ import KSR.Basic.KeyWord;
 import KSR.Basic.PreparedArticle;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DataContext {
     // Path to selected file
@@ -23,6 +24,7 @@ public class DataContext {
     public ArrayList<PreparedArticle> testArticles = null;
     // List of key word from training articles
     public ArrayList<KeyWord> keyWords;
+    public Map<String, ArrayList<String>> keyWordsMap;
 
     public DataContext() {
         filePath = "";

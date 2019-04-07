@@ -2,10 +2,18 @@ package KSR.GUI.Controller;
 
 import KSR.Basic.KeyWord;
 import KSR.Basic.PreparedArticle;
+import KSR.Classification.KNNService;
 import KSR.DataOperations.ArticleOperation;
 import KSR.DataOperations.DataExtarctor;
 import KSR.Features.TrainingService;
 import KSR.GUI.Model.DataContext;
+import KSR.Metrics.ChebyshevMetric;
+import KSR.Metrics.EuclideanMetric;
+import KSR.Metrics.IMetric;
+import KSR.Metrics.TaximanMetric;
+import KSR.Similarities.BinarySimilarity;
+import KSR.Similarities.ISimilarity;
+import KSR.Similarities.NGramSimilarity;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -21,10 +29,16 @@ import java.util.Collections;
 public class MainController {
     public DataContext dataContext;
     private ArticleOperation articleOperation;
+    private KNNService knnService;
 
     public MainController() {
         dataContext = new DataContext();
         articleOperation = new ArticleOperation();
+    }
+
+    public void HardReset() {
+        DataContext newDataContext = new DataContext();
+        dataContext = newDataContext;
     }
 
     public void ReadFile() {
@@ -39,6 +53,7 @@ public class MainController {
             JOptionPane.showMessageDialog(null, "Wystąpił problem z plikiem.");
         }
     }
+
     public void ReadMultipleFiles(){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setMultiSelectionEnabled(true);
@@ -159,6 +174,8 @@ public class MainController {
             }
         }
 
+        dataContext.keyWordsMap = trainingService.keyWords;
+
         // I THINK WE SHOULD PUT FEATURES EXTRACTION DEFINITION THERE -> KEY WORDS USAGE
 
     }
@@ -182,9 +199,20 @@ public class MainController {
         return rowModel;
     }
 
-    public void HardReset() {
-        DataContext newDataContext = new DataContext();
-        dataContext = newDataContext;
+    public void Classify(String metric, String k, String amountOfStartData) {
+        IMetric selectedMetric;
+        Integer paramK = Integer.parseInt(k);
+        Integer amount = Integer.parseInt(amountOfStartData);
+
+        if(metric == "Czebyszewa") {
+            selectedMetric = new ChebyshevMetric();
+        } else if(metric =="Euklidesowa") {
+            selectedMetric = new EuclideanMetric();
+        } else {
+            selectedMetric = new TaximanMetric();
+        }
+
+        knnService = new KNNService(selectedMetric, paramK, amount);
     }
 
 }

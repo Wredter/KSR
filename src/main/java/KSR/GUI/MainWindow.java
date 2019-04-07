@@ -17,6 +17,8 @@ public class MainWindow extends JFrame {
 
     private JPanel DataPanel;
     private JPanel LeftPanel;
+
+    private JButton resetButton;
     private JPanel DataLeftPanel;
     private JButton loadDataButton;
     private JTextField categoryTextField;
@@ -36,6 +38,15 @@ public class MainWindow extends JFrame {
 
     private JPanel ClassificationPanel;
 
+    private JPanel ClassificationLeftPanel;
+    private JComboBox metricComboBox;
+    private JComboBox similaritiesComboBox;
+
+    private JPanel ClassificationRightPanel;
+    private JTextField parameterKTextField;
+    private JTextField amountOfStartDataTextField;
+    private JButton classificationButton;
+
     private JPanel RightPanel;
 
     private JPanel KeyWordPanel;
@@ -43,8 +54,6 @@ public class MainWindow extends JFrame {
 
     private JPanel ClassificationResultPanel;
 
-    private JButton button4;
-    private JButton resetButton;
     private JButton divideArticlesButton;
 
 
@@ -61,17 +70,30 @@ public class MainWindow extends JFrame {
 
         mainController = new MainController();
 
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.HardReset();
+                categoryTextField.setText("");
+                tagsTextField.setText("");
+                treningDataTextField.setText("60");
+                testDataTextField.setText("40");
+                keyWordsNumTextField.setText("20");
+                keyWordsTable.setModel(new DefaultTableModel());
+            }
+        });
+
         loadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.ReadMultipleFiles();//podmieniłem metodę na multifile
+                mainController.ReadMultipleFiles();
             }
         });
 
         filterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);//podmieniłem metodę na multifile
+                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);
             }
         });
 
@@ -90,7 +112,6 @@ public class MainWindow extends JFrame {
                 }
 
                 mainController.DivideArticles(treningNum);
-
             }
         });
 
@@ -125,19 +146,12 @@ public class MainWindow extends JFrame {
             }
         });
 
-        resetButton.addActionListener(new ActionListener() {
+        classificationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.HardReset();
-                categoryTextField.setText("");
-                tagsTextField.setText("");
-                treningDataTextField.setText("60");
-                testDataTextField.setText("40");
-                keyWordsNumTextField.setText("20");
-                keyWordsTable.setModel(new DefaultTableModel());
+                mainController.Classify((String) metricComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText());
             }
         });
-
     }
 
     public void CreateMainPanelStructure() {
@@ -167,12 +181,22 @@ public class MainWindow extends JFrame {
 
         title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Klasyfikacja");
         ClassificationPanel.setBorder(title);
+        ClassificationPanel.setLayout(new GridLayout(1, 2, 10, 10));
+        ClassificationPanel.add(ClassificationLeftPanel);
+        ClassificationPanel.add(ClassificationRightPanel);
         LeftPanel.add(ClassificationPanel);
+
 
         extractionMethodCcomboBox.addItem("Liczby słów");
         extractionMethodCcomboBox.addItem("Częstotliwości występowania słów");
         extractionMethodCcomboBox.addItem("Umiejscowienia słów");
 
+        metricComboBox.addItem("Czebyszewa");
+        metricComboBox.addItem("Euklidesowa");
+        metricComboBox.addItem("Taxi");
+
+        similaritiesComboBox.addItem("Binarna");
+        similaritiesComboBox.addItem("N-Grama");
     }
 
     public void CreateRightPanelStructure() {
@@ -187,5 +211,4 @@ public class MainWindow extends JFrame {
         ClassificationResultPanel.setBorder(title);
         RightPanel.add(ClassificationResultPanel);
     }
-
 }
