@@ -1,6 +1,7 @@
 package KSR.DataOperations;
 
 import KSR.Basic.Article;
+import KSR.Basic.PreparedArticle;
 //import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.BufferedReader;
@@ -78,11 +79,11 @@ public class ArticleOperation {
         return result;
     }
 
-    public ArrayList<String> GenerateStopList(ArrayList<Article> articles, Double occurancePercentage) {
+    public ArrayList<String> GenerateStopList(ArrayList<PreparedArticle> articles, Double occurancePercentage) {
         Map<String, Integer> stopLista = new HashMap<>();
         ArrayList<String> result = new ArrayList<>();
 
-        for (Article article : articles) {
+        for (PreparedArticle article : articles) {
             for (String word : article.words) {
                 if (stopLista.containsKey(word)) {
                     stopLista.replace(word, stopLista.get(word) + 1);

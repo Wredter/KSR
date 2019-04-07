@@ -45,6 +45,7 @@ public class MainWindow extends JFrame {
 
     private JButton button4;
     private JButton resetButton;
+    private JButton divideArticlesButton;
 
 
     public MainWindow() {
@@ -74,14 +75,7 @@ public class MainWindow extends JFrame {
             }
         });
 
-        loadStopListButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainController.GenerateStopList();
-            }
-        });
-
-        prepareButton.addActionListener(new ActionListener() {
+        divideArticlesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer treningNum = Integer.parseInt(treningDataTextField.getText());
@@ -95,8 +89,22 @@ public class MainWindow extends JFrame {
                     return;
                 }
 
-                mainController.PrepareArticles(treningNum);
+                mainController.DivideArticles(treningNum);
 
+            }
+        });
+
+        loadStopListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.GenerateStopList();
+            }
+        });
+
+        prepareButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.PrepareArticles();
             }
         });
 
@@ -106,14 +114,17 @@ public class MainWindow extends JFrame {
                 String selectedExtractor = (String) extractionMethodCcomboBox.getSelectedItem();
                 if (selectedExtractor == "Liczby słów") {
                     selectedExtractor = "WordsNumber";
-                } else {
+                } else if (selectedExtractor == "Częstotliwości występowania słów") {
                     selectedExtractor = "WordsFrequency";
+                } else {
+                    selectedExtractor = "WordPlacement";
                 }
                 mainController.Train(keyWordsNumTextField, selectedExtractor);
 
                 keyWordsTable.setModel(mainController.CreateKeyWordsTable());
             }
         });
+
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,6 +137,7 @@ public class MainWindow extends JFrame {
                 keyWordsTable.setModel(new DefaultTableModel());
             }
         });
+
     }
 
     public void CreateMainPanelStructure() {
@@ -159,6 +171,7 @@ public class MainWindow extends JFrame {
 
         extractionMethodCcomboBox.addItem("Liczby słów");
         extractionMethodCcomboBox.addItem("Częstotliwości występowania słów");
+        extractionMethodCcomboBox.addItem("Umiejscowienia słów");
 
     }
 

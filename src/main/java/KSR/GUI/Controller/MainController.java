@@ -115,12 +115,7 @@ public class MainController {
         dataContext.rawArticles = ArticleOperation.Filter(dataContext.rawArticles, dataContext.selectedTags);
     }
 
-
-    public void GenerateStopList() {
-        dataContext.stopList = articleOperation.GenerateStopList(dataContext.rawArticles, 0.05);
-    }
-
-    public void PrepareArticles(Integer treningNum) {
+    public void DivideArticles(Integer treningNum) {
         dataContext.treningArticles = new ArrayList<>();
         dataContext.testArticles = new ArrayList<>();
 
@@ -128,14 +123,28 @@ public class MainController {
 
         for (int i = 0; i < treningNum; i++) {
             if (dataContext.rawArticles.get(i).tags.size() == 1) {
-                dataContext.treningArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.rawArticles.get(i).tags, dataContext.stopList));
+                dataContext.treningArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.rawArticles.get(i).tags));
             }
         }
 
         for (int i = treningNum; i < dataContext.rawArticles.size(); i++) {
             if (dataContext.rawArticles.get(i).tags.size() == 1) {
-                dataContext.testArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.rawArticles.get(i).tags, dataContext.stopList));
+                dataContext.testArticles.add(new PreparedArticle(dataContext.rawArticles.get(i), dataContext.rawArticles.get(i).tags));
             }
+        }
+    }
+
+
+    public void GenerateStopList() {
+        dataContext.stopList = articleOperation.GenerateStopList(dataContext.treningArticles, 0.05);
+    }
+
+    public void PrepareArticles() {
+        for(PreparedArticle art : dataContext.treningArticles) {
+            art.words = articleOperation.Prepare(art.words, dataContext.stopList);
+        }
+        for(PreparedArticle art : dataContext.testArticles) {
+            art.words = articleOperation.Prepare(art.words, dataContext.stopList);
         }
     }
 

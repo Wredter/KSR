@@ -35,6 +35,8 @@ public class TrainingService {
                 wordsMap = this.CalculateWordsNumber(filteredArticles);
             } else if (selectedExtractor == "WordsFrequency") {
                 wordsMap = this.CalculateWordFrequency(filteredArticles);
+            } else {
+                wordsMap = this.CalculateWordPlacement(filteredArticles);
             }
 
             wordsMap.entrySet()
