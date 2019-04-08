@@ -3,14 +3,11 @@ package KSR.FeatureExtractors;
 import KSR.Basic.PreparedArticle;
 import KSR.Similarities.ISimilarity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PositionFeatureExtractor implements IFeatureExtractor {
     @Override
-    public Map<String, Double> ExtractFeatures(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
+    public Collection<Double> ExtractFeatures(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
         Map<String, Double> featureVector = new HashMap<>();
         Set<String> tags = keyWords.keySet();
         Double sim;

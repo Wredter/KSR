@@ -228,11 +228,10 @@ public class MainController {
         // Prepate to "Cold Start"
         ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
         for (String tag : dataContext.selectedTags) {
-            ArrayList<PreparedArticle> temp = dataContext.testArticles.stream()
-                    .filter(t -> t.tags.get(0) == tag)
-                    .collect(Collectors.toCollection(ArrayList::new));
-            coldArticles.addAll(temp);
-            for (PreparedArticle art : temp) {
+            for(int i = 0; i < amount; i++) {
+                coldArticles.add(dataContext.testArticles.get(i));
+            }
+            for (PreparedArticle art : coldArticles) {
                 dataContext.testArticles.remove(art);
             }
         }

@@ -5,7 +5,6 @@ import KSR.FeatureExtractors.IFeatureExtractor;
 import KSR.Similarities.ISimilarity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class FeaturesService {
@@ -19,10 +18,10 @@ public class FeaturesService {
         this.featureExtractors = featureExtractors;
     }
 
-    public Map<String, Double> GetFeaturesVector(PreparedArticle article) {
-        Map<String, Double> features = new HashMap<>();
+    public ArrayList<Double> GetFeaturesVector(PreparedArticle article) {
+        ArrayList<Double> features = new ArrayList<>();
         for (IFeatureExtractor featureExtractor : featureExtractors) {
-            features.putAll(featureExtractor.ExtractFeatures(article, keyWords, similarity));
+            features.addAll(featureExtractor.ExtractFeatures(article, keyWords, similarity));
         }
 
         return features;

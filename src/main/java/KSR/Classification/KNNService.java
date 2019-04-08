@@ -34,7 +34,7 @@ public class KNNService {
         Map<String, Double> neighbors = new HashMap<>();
 
         for (ClassifyArticle art : this.classifiedArticles) {
-            neighbors.put(art.predictedTag, (metric.CalculateDistance(art.featureValueVector, classifyArticle.featureValueVector)));
+            neighbors.put(art.predictedTag, (metric.CalculateDistance(art.featuresVector, classifyArticle.featuresVector)));
         }
 
         // Get sorted and limited collection of neighbors
