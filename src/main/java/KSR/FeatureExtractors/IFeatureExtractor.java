@@ -17,11 +17,11 @@ public interface IFeatureExtractor {
         for (String tag : tags) {
             sum += featureVector.get(tag);
         }
-        if(sum<=0){
+        if (sum <= 0) {
             System.out.println("Nie da się zaklasyfikować");
             return featureVector.values();
 
-        }else{
+        } else {
             for (String tag : tags) {
                 featureVector.replace(tag, (featureVector.get(tag) / sum));
             }
