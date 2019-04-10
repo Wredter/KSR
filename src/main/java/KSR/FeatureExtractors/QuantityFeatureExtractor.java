@@ -8,7 +8,7 @@ import java.util.*;
 public class QuantityFeatureExtractor implements IFeatureExtractor {
 
     @Override
-    public Collection<Double> ExtractFeatures(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
+    public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
         Map<String, Double> featureVector = new HashMap<>();
         Set<String> tags = keyWords.keySet();
         Double sim;
@@ -24,11 +24,6 @@ public class QuantityFeatureExtractor implements IFeatureExtractor {
             }
         }
         return IFeatureExtractor.Normalize(featureVector);
-    }
-
-    @Override
-    public Double CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords) {
-        return null;
     }
 
 }

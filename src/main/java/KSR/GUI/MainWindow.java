@@ -29,6 +29,7 @@ public class MainWindow extends JFrame {
     private JButton loadStopListButton;
     private JTextField treningDataTextField;
     private JTextField testDataTextField;
+    private JButton divideArticlesButton;
     private JButton prepareButton;
 
     private JPanel TeachPanel;
@@ -54,7 +55,9 @@ public class MainWindow extends JFrame {
 
     private JPanel ClassificationResultPanel;
 
-    private JButton divideArticlesButton;
+    private ButtonGroup extractionMethodButtonGroup;
+    private JRadioButton extraction1RadioButton;
+    private JRadioButton extraction2RadioButton;
 
 
     public MainWindow() {
@@ -90,16 +93,46 @@ public class MainWindow extends JFrame {
             }
         });
 
-        filterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);
-            }
-        });
+//        filterButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);
+//            }
+//        });
+//
+//        divideArticlesButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Integer treningNum = Integer.parseInt(treningDataTextField.getText());
+//                Integer testNum = Integer.parseInt(testDataTextField.getText());
+//                if (treningNum >= 100 || testNum >= 100) {
+//                    JOptionPane.showMessageDialog(null, "Nieprawidłowa wartość.");
+//                    return;
+//                } else if ((treningNum + testNum) != 100) {
+//                    testNum = 100 - treningNum;
+//                    testDataTextField.setText(String.valueOf(testNum));
+//                    return;
+//                }
+//
+//                mainController.DivideArticles(treningNum);
+//            }
+//        });
+//
+//        loadStopListButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                mainController.GenerateStopList();
+//            }
+//        });
 
-        divideArticlesButton.addActionListener(new ActionListener() {
+        prepareButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                // Filtruj
+                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);
+
+                // Podziel zbiór
                 Integer treningNum = Integer.parseInt(treningDataTextField.getText());
                 Integer testNum = Integer.parseInt(testDataTextField.getText());
                 if (treningNum >= 100 || testNum >= 100) {
@@ -112,19 +145,11 @@ public class MainWindow extends JFrame {
                 }
 
                 mainController.DivideArticles(treningNum);
-            }
-        });
 
-        loadStopListButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                // Generuj stoplistę
                 mainController.GenerateStopList();
-            }
-        });
 
-        prepareButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                // Przetwórz
                 mainController.PrepareArticles();
             }
         });
@@ -149,7 +174,12 @@ public class MainWindow extends JFrame {
         classificationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainController.Classify((String) metricComboBox.getSelectedItem(), (String) similaritiesComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText());
+                String extractionMethod = "";
+                if(extraction1RadioButton.isSelected()) {
+                    extractionMethod = "DM";
+                }
+
+                mainController.Classify((String) metricComboBox.getSelectedItem(), (String) similaritiesComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText(), extractionMethod);
             }
         });
     }
@@ -196,6 +226,8 @@ public class MainWindow extends JFrame {
 
         similaritiesComboBox.addItem("Binarna");
         similaritiesComboBox.addItem("N-Grama");
+
+
     }
 
     public void CreateRightPanelStructure() {

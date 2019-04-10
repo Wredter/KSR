@@ -5,6 +5,7 @@ import KSR.Basic.PreparedArticle;
 import KSR.Classification.KNNService;
 import KSR.DataOperations.ArticleOperation;
 import KSR.DataOperations.DataExtarctor;
+import KSR.FeatureExtractors.DictionaryMatchingFeatureExtractor;
 import KSR.FeatureExtractors.IFeatureExtractor;
 import KSR.FeatureExtractors.PositionFeatureExtractor;
 import KSR.FeatureExtractors.QuantityFeatureExtractor;
@@ -201,11 +202,12 @@ public class MainController {
         return rowModel;
     }
 
-    public void Classify(String metric, String similarity, String k, String amountOfStartData) {
+    public void Classify(String metric, String similarity, String k, String amountOfStartData, String extractionMethod) {
         IMetric selectedMetric;
         ISimilarity selectedSimilarity;
         Integer paramK = Integer.parseInt(k);
         Integer amount = Integer.parseInt(amountOfStartData);
+        ArrayList<IFeatureExtractor> featureExtractors;
 
         if (metric == "Czebyszewa") {
             selectedMetric = new ChebyshevMetric();
@@ -221,20 +223,29 @@ public class MainController {
             selectedSimilarity = new NGramSimilarity();
         }
 
-        ArrayList<IFeatureExtractor> featureExtractors = PrepareFeatureExtractors();
+        if (extractionMethod == "DM") {
+            featureExtractors = PrepareDMFeatureExtractors();
+        } else {
+            featureExtractors = PrepareOwnFeatureExtractors();
+
+        }
+
         FeaturesService featuresService = new FeaturesService(dataContext.keyWordsMap, selectedSimilarity, featureExtractors);
         knnService = new KNNService(featuresService, selectedMetric, paramK);
 
         // Prepate to "Cold Start"
         ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
         for (String tag : dataContext.selectedTags) {
-            for(int i = 0; i < amount; i++) {
+            for (int i = 0; i < amount; i++) {
                 coldArticles.add(dataContext.testArticles.get(i));
             }
             for (PreparedArticle art : coldArticles) {
                 dataContext.testArticles.remove(art);
             }
         }
+
+        // 4.10.2019
+        // TUTAJ JAKBY ZATRZYMUJE SIĘ PROGRAM -> SPRAWDZIĆ INITKNN
         knnService.InitKnn(coldArticles);
 
         Integer all = 0;
@@ -244,25 +255,33 @@ public class MainController {
         // Start classification
         for (PreparedArticle art : dataContext.testArticles) {
             String predictedTag = knnService.ClassifyArticle(art);
-            for(String tag : dataContext.selectedTags) {
-                if(art.tags.get(0) == tag) {
+            for (String tag : dataContext.selectedTags) {
+                if (art.tags.get(0) == tag) {
                     all++;
-                    if(predictedTag == tag) {
+                    if (predictedTag == tag) {
                         tp++;
                     }
                 } else {
-                    if(predictedTag == tag) {
+                    if (predictedTag == tag) {
                         tn++;
                     }
                 }
             }
         }
 
-        String g = "xd";
+        String x = "";
     }
 
     // Select which features extractors will be used
-    public ArrayList<IFeatureExtractor> PrepareFeatureExtractors() {
+    public ArrayList<IFeatureExtractor> PrepareDMFeatureExtractors() {
+        ArrayList<IFeatureExtractor> result = new ArrayList<>();
+
+        result.add(new DictionaryMatchingFeatureExtractor());
+
+        return result;
+    }
+
+    public ArrayList<IFeatureExtractor> PrepareOwnFeatureExtractors() {
         ArrayList<IFeatureExtractor> result = new ArrayList<>();
 
         result.add(new PositionFeatureExtractor());

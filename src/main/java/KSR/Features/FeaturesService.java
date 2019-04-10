@@ -1,6 +1,7 @@
 package KSR.Features;
 
 import KSR.Basic.PreparedArticle;
+import KSR.FeatureExtractors.DictionaryMatchingFeatureExtractor;
 import KSR.FeatureExtractors.IFeatureExtractor;
 import KSR.Similarities.ISimilarity;
 
@@ -21,7 +22,7 @@ public class FeaturesService {
     public ArrayList<Double> GetFeaturesVector(PreparedArticle article) {
         ArrayList<Double> features = new ArrayList<>();
         for (IFeatureExtractor featureExtractor : featureExtractors) {
-            features.addAll(featureExtractor.ExtractFeatures(article, keyWords, similarity));
+            features.addAll(featureExtractor.CalculateFeatureValue(article, keyWords, similarity));
         }
 
         return features;
