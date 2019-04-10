@@ -169,9 +169,9 @@ public class MainController {
     }
 
     public void Train(JTextField KeyWordsNumTextField, String selectedExtractor) {
-        TrainingService trainingService = new TrainingService(dataContext.selectedCategory, dataContext.selectedTags, dataContext.treningArticles);
         Integer keyWordsCount = Integer.parseInt(KeyWordsNumTextField.getText());
-        trainingService.Train(keyWordsCount, selectedExtractor);
+        TrainingService trainingService = new TrainingService(dataContext.selectedCategory, dataContext.selectedTags, dataContext.treningArticles, selectedExtractor, keyWordsCount);
+        trainingService.Train();
 
         for (String tag : dataContext.selectedTags) {
             for (String word : trainingService.keyWords.get(tag)) {

@@ -186,14 +186,13 @@ public class MainWindow extends JFrame {
         ClassificationPanel.add(ClassificationRightPanel);
         LeftPanel.add(ClassificationPanel);
 
-
         extractionMethodCcomboBox.addItem("Liczby słów");
         extractionMethodCcomboBox.addItem("Częstotliwości występowania słów");
         extractionMethodCcomboBox.addItem("Umiejscowienia słów");
 
         metricComboBox.addItem("Czebyszewa");
         metricComboBox.addItem("Euklidesowa");
-        metricComboBox.addItem("Taxi");
+        metricComboBox.addItem("Uliczna");
 
         similaritiesComboBox.addItem("Binarna");
         similaritiesComboBox.addItem("N-Grama");

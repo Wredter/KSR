@@ -39,6 +39,7 @@ public class ArticleOperation {
         result = this.RemoveNonLetterWords(result);
         result = this.RemoveWordsContainedInStopList(result, stopList);
         result = this.MakeWordsStamization(result);
+        result = this.RemoveWordsContainedInStopList(result, stopList);
 
         return result;
     }
@@ -66,17 +67,21 @@ public class ArticleOperation {
     }
 
     public ArrayList<String> MakeWordsStamization(ArrayList<String> words) {
-        ArrayList<String> result = words;
-//
-//        PorterStemmer stemmer = new PorterStemmer();
-//
-//        for (String word : words) {
-//            stemmer.setCurrent(word);
-//            stemmer.stem();
-//            result.add(stemmer.getCurrent());
-//        }
+        PorterStemmer stemmer;
+        ArrayList<String> stemmWords = new ArrayList<>();
+        String stemmWord;
 
-        return result;
+        for (String w : words) {
+            stemmer = new PorterStemmer();
+            stemmer.add(w.toCharArray(), w.length());
+            stemmer.stem();
+            stemmWord = stemmer.toString();
+            if (stemmWord.length() > 1) {
+                stemmWords.add(stemmWord);
+            }
+        }
+
+        return stemmWords;
     }
 
     public ArrayList<String> GenerateStopList(ArrayList<PreparedArticle> articles, Double occurancePercentage) {
@@ -115,4 +120,52 @@ public class ArticleOperation {
         }
         return result;
     }
+
+
+    // STWORZYC ALGORYTM DIRECTOR MATCHING
+    private Map<String, Double> CalculateWordsNumber(ArrayList<PreparedArticle> selectedArticles) {
+        Map<String, Double> result = new HashMap<>();
+        ArrayList<String> allwords = new ArrayList<>();
+
+        for (PreparedArticle article : selectedArticles) {
+            for (String word : article.words) {
+                allwords.add(word);
+            }
+        }
+
+        ArrayList<String> distinctWords = allwords.stream()
+                .distinct()
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        for (String word : distinctWords) {
+            result.put(word, 0.0);
+        }
+
+        for (PreparedArticle article : selectedArticles) {
+            for (String w : article.words) {
+                result.put(w, result.get(w) + 1.0);
+            }
+        }
+
+
+        return result;
+    }
+
+    public ArrayList<String> GetMeaningulWordsFromArticle(PreparedArticle article) {
+        ArrayList<String> result = new ArrayList<>();
+        Map<String, Double> wordsMap = new HashMap<>();
+
+        ArrayList<PreparedArticle> preparedArticles = new ArrayList<>();
+        preparedArticles.add(article);
+
+        wordsMap = this.CalculateWordsNumber(preparedArticles);
+
+        wordsMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(t -> result.add(t.getKey()));
+
+        return result;
+    }
+    // STOP
 }

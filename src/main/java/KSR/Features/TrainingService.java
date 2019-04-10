@@ -9,12 +9,16 @@ public class TrainingService {
     public String category;
     public ArrayList<String> tags;
     public ArrayList<PreparedArticle> articles;
+    public String selectedExtractor;
+    public Integer keyWordsCount;
     public Map<String, ArrayList<String>> keyWords;
 
-    public TrainingService(String category, ArrayList<String> tags, ArrayList<PreparedArticle> articles) {
+    public TrainingService(String category, ArrayList<String> tags, ArrayList<PreparedArticle> articles, String selectedExtractor, Integer keyWordsCount) {
         this.category = category;
         this.tags = tags;
         this.articles = articles;
+        this.selectedExtractor = selectedExtractor;
+        this.keyWordsCount = keyWordsCount;
         this.keyWords = new HashMap<>();
 
         for (String tag : this.tags) {
@@ -22,7 +26,7 @@ public class TrainingService {
         }
     }
 
-    public void Train(Integer keyWordsCount, String selectedExtractor) {
+    public void Train() {
         for (String tag : tags) {
             Map<String, Double> wordsMap = new HashMap<>();
             ArrayList<String> sortedWords = new ArrayList<>();
@@ -31,9 +35,9 @@ public class TrainingService {
                     .filter(t -> t.tags.contains(tag))
                     .collect(Collectors.toCollection(ArrayList::new));
 
-            if (selectedExtractor == "WordsNumber") {
+            if (this.selectedExtractor == "WordsNumber") {
                 wordsMap = this.CalculateWordsNumber(filteredArticles);
-            } else if (selectedExtractor == "WordsFrequency") {
+            } else if (this.selectedExtractor == "WordsFrequency") {
                 wordsMap = this.CalculateWordFrequency(filteredArticles);
             } else {
                 wordsMap = this.CalculateWordPlacement(filteredArticles);
@@ -50,7 +54,7 @@ public class TrainingService {
         for (String tag : tags) {
             ArrayList<String> oldValue = this.keyWords.get(tag);
             ArrayList<String> oldMapObj = this.keyWords.replace(tag, oldValue.stream().parallel()
-                    .limit(keyWordsCount)
+                    .limit(this.keyWordsCount)
                     .collect(Collectors.toCollection(ArrayList::new)));
         }
     }
@@ -121,4 +125,5 @@ public class TrainingService {
         }
         return distinctWords;
     }
+
 }

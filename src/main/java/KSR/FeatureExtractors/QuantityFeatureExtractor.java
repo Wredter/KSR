@@ -26,4 +26,9 @@ public class QuantityFeatureExtractor implements IFeatureExtractor {
         return IFeatureExtractor.Normalize(featureVector);
     }
 
+    @Override
+    public Double CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords) {
+        return null;
+    }
+
 }

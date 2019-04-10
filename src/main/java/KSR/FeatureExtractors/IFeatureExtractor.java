@@ -11,6 +11,8 @@ import java.util.Set;
 public interface IFeatureExtractor {
     public Collection<Double> ExtractFeatures(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity);
 
+    public Double CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords);
+
     static Collection<Double> Normalize(Map<String, Double> featureVector) {
         Set<String> tags = featureVector.keySet();
         Double sum = 0d;
