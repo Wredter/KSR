@@ -2,13 +2,11 @@ package KSR.GUI.Controller;
 
 import KSR.Basic.KeyWord;
 import KSR.Basic.PreparedArticle;
+import KSR.Basic.Result;
 import KSR.Classification.KNNService;
 import KSR.DataOperations.ArticleOperation;
 import KSR.DataOperations.DataExtarctor;
-import KSR.FeatureExtractors.DictionaryMatchingFeatureExtractor;
-import KSR.FeatureExtractors.IFeatureExtractor;
-import KSR.FeatureExtractors.PositionFeatureExtractor;
-import KSR.FeatureExtractors.QuantityFeatureExtractor;
+import KSR.FeatureExtractors.*;
 import KSR.Features.FeaturesService;
 import KSR.Features.TrainingService;
 import KSR.GUI.Model.DataContext;
@@ -22,16 +20,10 @@ import KSR.Similarities.NGramSimilarity;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import static java.lang.StrictMath.abs;
 
@@ -64,7 +56,7 @@ public class MainController {
     }
 
     public void ReadMultipleFiles() {
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"//Data");
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "//Data");
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("SGM FILES", "sgm");
         fileChooser.setFileFilter(filter);
@@ -213,25 +205,26 @@ public class MainController {
         ArrayList<IFeatureExtractor> featureExtractors;
         Random rand = new Random();
 
-        if (metric == "Czebyszewa") {
+        if (metric.equals("Czebyszewa")) {
             selectedMetric = new ChebyshevMetric();
-        } else if (metric == "Euklidesowa") {
+        } else if (metric.equals("Euklidesowa")) {
             selectedMetric = new EuclideanMetric();
         } else {
             selectedMetric = new TaximanMetric();
         }
 
-        if (similarity == "Binarna") {
+        if (similarity.equals("Binarna")) {
             selectedSimilarity = new BinarySimilarity();
         } else {
             selectedSimilarity = new NGramSimilarity();
         }
 
-        if (extractionMethod == "DM") {
-            featureExtractors = PrepareDMFeatureExtractors();
+        if (extractionMethod.equals("Quantity")) {
+            featureExtractors = PrepareQuantityFeatureExtractors();
+        } else if (extractionMethod.equals("Position")) {
+            featureExtractors = PreparePositionFeatureExtractors();
         } else {
             featureExtractors = PrepareOwnFeatureExtractors();
-
         }
 
         FeaturesService featuresService = new FeaturesService(dataContext.keyWordsMap, selectedSimilarity, featureExtractors);
@@ -240,25 +233,25 @@ public class MainController {
         // Prepate to "Cold Start"
         ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
         for (String tag : dataContext.selectedTags) {
-            ArrayList<Integer> indexs = new ArrayList<>();
+            ArrayList<Integer> listOfIndex = new ArrayList<>();
             for (int i = 0; i < amount; i++) {
                 Integer randIndex;
                 Integer iterator = 0;
-                while(true) {
+                while (true) {
                     iterator++;
                     randIndex = abs(rand.nextInt() % dataContext.testArticles.size());
-                    if(!indexs.contains(randIndex)) {
-                        indexs.add(randIndex);
+                    if (!listOfIndex.contains(randIndex)) {
+                        listOfIndex.add(randIndex);
                         break;
                     }
-                    if(iterator > 100) {
+                    if (iterator > 100) {
                         break;
                     }
                 }
                 coldArticles.add(dataContext.testArticles.get(randIndex));
             }
             for (PreparedArticle art : coldArticles) {
-                if(dataContext.testArticles.contains(art)) {
+                if (dataContext.testArticles.contains(art)) {
                     dataContext.testArticles.remove(art);
                 }
             }
@@ -266,47 +259,69 @@ public class MainController {
 
         knnService.InitKnn(coldArticles);
 
-        Integer all = 0;
-        Integer tp = 0;
-        Integer tn = 0;
+        // create results
+        for (String tag : dataContext.selectedTags) {
+            dataContext.classificationResults.add(new Result(tag));
+        }
 
         // Start classification
         for (PreparedArticle art : dataContext.testArticles) {
             String predictedTag = knnService.ClassifyArticle(art);
             for (String tag : dataContext.selectedTags) {
                 if (art.tags.get(0).equals(tag)) {
-                    all++;
+                    dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incAll();
                     if (predictedTag.equals(tag)) {
-                        tp++;
+                        dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incTp();
                     }
                 } else {
                     if (predictedTag.equals(tag)) {
-                        tn++;
+                        dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incTn();
                     }
                 }
             }
         }
 
-        String x = "";
     }
 
-    // Select which features extractors will be used
-    public ArrayList<IFeatureExtractor> PrepareDMFeatureExtractors() {
+
+    ArrayList<IFeatureExtractor> PrepareQuantityFeatureExtractors() {
         ArrayList<IFeatureExtractor> result = new ArrayList<>();
-
-        result.add(new DictionaryMatchingFeatureExtractor());
-
-        return result;
-    }
-
-    public ArrayList<IFeatureExtractor> PrepareOwnFeatureExtractors() {
-        ArrayList<IFeatureExtractor> result = new ArrayList<>();
-
-        result.add(new PositionFeatureExtractor());
         result.add(new QuantityFeatureExtractor());
-
-
         return result;
+    }
+
+    ArrayList<IFeatureExtractor> PreparePositionFeatureExtractors() {
+        ArrayList<IFeatureExtractor> result = new ArrayList<>();
+        result.add(new PositionFeatureExtractor());
+        return result;
+    }
+
+    ArrayList<IFeatureExtractor> PrepareOwnFeatureExtractors() {
+        ArrayList<IFeatureExtractor> result = new ArrayList<>();
+        result.add(new OwnFeatureExtractor());
+        return result;
+    }
+
+
+    public DefaultTableModel CreateClassificationTableTable() {
+        JTable classificationTable = new JTable();
+        DefaultTableModel rowModel = new DefaultTableModel(new String[]{"No.", "Tag", "All", "Tp", "Tn"}, 0);
+
+        classificationTable.setModel(rowModel);
+
+        for (int i = 0; i < dataContext.classificationResults.size(); i++) {
+            rowModel.addRow(
+                    new Object[]{
+                            i + 1,
+                            dataContext.classificationResults.get(i).tag,
+                            dataContext.classificationResults.get(i).all,
+                            dataContext.classificationResults.get(i).tp,
+                            dataContext.classificationResults.get(i).tn,
+                    }
+            );
+        }
+
+        return rowModel;
     }
 
 }

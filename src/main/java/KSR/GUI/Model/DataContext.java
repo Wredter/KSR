@@ -3,6 +3,7 @@ package KSR.GUI.Model;
 import KSR.Basic.Article;
 import KSR.Basic.KeyWord;
 import KSR.Basic.PreparedArticle;
+import KSR.Basic.Result;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,6 +26,8 @@ public class DataContext {
     // List of key word from training articles
     public ArrayList<KeyWord> keyWords;
     public Map<String, ArrayList<String>> keyWordsMap;
+    // List of classification results
+    public ArrayList<Result> classificationResults;
 
     public DataContext() {
         filePath = "";
@@ -32,5 +35,6 @@ public class DataContext {
         rawArticles = new ArrayList<>();
         keyWords = new ArrayList<>();
         filePaths = new ArrayList<>();
+        classificationResults = new ArrayList<>();
     }
 }

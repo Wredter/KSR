@@ -1,7 +1,6 @@
 package KSR.Features;
 
 import KSR.Basic.PreparedArticle;
-import KSR.FeatureExtractors.DictionaryMatchingFeatureExtractor;
 import KSR.FeatureExtractors.IFeatureExtractor;
 import KSR.Similarities.ISimilarity;
 

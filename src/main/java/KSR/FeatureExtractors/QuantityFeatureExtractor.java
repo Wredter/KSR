@@ -3,27 +3,26 @@ package KSR.FeatureExtractors;
 import KSR.Basic.PreparedArticle;
 import KSR.Similarities.ISimilarity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 public class QuantityFeatureExtractor implements IFeatureExtractor {
 
     @Override
     public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
-        Map<String, Double> featureVector = new HashMap<>();
-        Set<String> tags = keyWords.keySet();
-        Double sim;
-        for (String tag : tags) {
-            featureVector.put(tag, 0d);
-        }
-        for (String word : article.words) {
-            for (String tag : tags) {
-                for (String keyWord : keyWords.get(tag)) {
-                    sim = similarity.CalculateSimilarity(word, keyWord);
-                    featureVector.replace(tag, featureVector.get(tag) + sim);
+        ArrayList<String> keys = keyWords.get(article.tags.get(0));
+        ArrayList<Double> result = new ArrayList<>();
+        for (String key : keys) {
+            Double count = 0.0;
+            for (String word : article.words) {
+                if (key.equals(word)) {
+                    count += 1.0;
                 }
             }
+            result.add(count);
         }
-        return IFeatureExtractor.Normalize(featureVector);
-    }
 
+        return result;
+    }
 }

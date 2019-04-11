@@ -18,7 +18,6 @@ public class MainWindow extends JFrame {
     private JPanel DataPanel;
     private JPanel LeftPanel;
 
-    private JButton resetButton;
     private JPanel DataLeftPanel;
     private JButton loadDataButton;
     private JTextField categoryTextField;
@@ -40,10 +39,13 @@ public class MainWindow extends JFrame {
     private JPanel ClassificationPanel;
 
     private JPanel ClassificationLeftPanel;
-    private JComboBox metricComboBox;
     private JComboBox similaritiesComboBox;
+    private JRadioButton extraction1RadioButton;
+    private JRadioButton extraction2RadioButton;
+    private JRadioButton extraction3RadioButton;
 
     private JPanel ClassificationRightPanel;
+    private JComboBox metricComboBox;
     private JTextField parameterKTextField;
     private JTextField amountOfStartDataTextField;
     private JButton classificationButton;
@@ -54,10 +56,7 @@ public class MainWindow extends JFrame {
     private JTable keyWordsTable;
 
     private JPanel ClassificationResultPanel;
-
-    private ButtonGroup extractionMethodButtonGroup;
-    private JRadioButton extraction1RadioButton;
-    private JRadioButton extraction2RadioButton;
+    private JTable classificationResultTable;
 
 
     public MainWindow() {
@@ -73,57 +72,12 @@ public class MainWindow extends JFrame {
 
         mainController = new MainController();
 
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainController.HardReset();
-                categoryTextField.setText("");
-                tagsTextField.setText("");
-                treningDataTextField.setText("60");
-                testDataTextField.setText("40");
-                keyWordsNumTextField.setText("20");
-                keyWordsTable.setModel(new DefaultTableModel());
-            }
-        });
-
         loadDataButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainController.ReadMultipleFiles();
             }
         });
-
-//        filterButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                mainController.FilterMultipleFiles(categoryTextField, tagsTextField);
-//            }
-//        });
-//
-//        divideArticlesButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Integer treningNum = Integer.parseInt(treningDataTextField.getText());
-//                Integer testNum = Integer.parseInt(testDataTextField.getText());
-//                if (treningNum >= 100 || testNum >= 100) {
-//                    JOptionPane.showMessageDialog(null, "Nieprawidłowa wartość.");
-//                    return;
-//                } else if ((treningNum + testNum) != 100) {
-//                    testNum = 100 - treningNum;
-//                    testDataTextField.setText(String.valueOf(testNum));
-//                    return;
-//                }
-//
-//                mainController.DivideArticles(treningNum);
-//            }
-//        });
-//
-//        loadStopListButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                mainController.GenerateStopList();
-//            }
-//        });
 
         prepareButton.addActionListener(new ActionListener() {
             @Override
@@ -174,12 +128,16 @@ public class MainWindow extends JFrame {
         classificationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String extractionMethod = "";
+                String extractionMethod = "Own";
                 if(extraction1RadioButton.isSelected()) {
-                    extractionMethod = "DM";
+                    extractionMethod = "Quantity";
+                } else if(extraction2RadioButton.isSelected()) {
+                    extractionMethod = "Position";
                 }
 
                 mainController.Classify((String) metricComboBox.getSelectedItem(), (String) similaritiesComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText(), extractionMethod);
+
+                classificationResultTable.setModel(mainController.CreateClassificationTableTable());
             }
         });
     }
@@ -226,8 +184,6 @@ public class MainWindow extends JFrame {
 
         similaritiesComboBox.addItem("Binarna");
         similaritiesComboBox.addItem("N-Grama");
-
-
     }
 
     public void CreateRightPanelStructure() {
