@@ -30,7 +30,10 @@ import javax.xml.crypto.Data;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.stream.Collectors;
+
+import static java.lang.StrictMath.abs;
 
 public class MainController {
     public DataContext dataContext;
@@ -208,6 +211,7 @@ public class MainController {
         Integer paramK = Integer.parseInt(k);
         Integer amount = Integer.parseInt(amountOfStartData);
         ArrayList<IFeatureExtractor> featureExtractors;
+        Random rand = new Random();
 
         if (metric == "Czebyszewa") {
             selectedMetric = new ChebyshevMetric();
@@ -236,16 +240,23 @@ public class MainController {
         // Prepate to "Cold Start"
         ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
         for (String tag : dataContext.selectedTags) {
+            ArrayList<Integer> indexs = new ArrayList<>();
             for (int i = 0; i < amount; i++) {
-                coldArticles.add(dataContext.testArticles.get(i));
+                Integer randIndex;
+                while(true) {
+                    randIndex = abs(rand.nextInt() % dataContext.testArticles.size());
+                    if(!indexs.contains(randIndex)) {
+                        indexs.add(randIndex);
+                        break;
+                    }
+                }
+                coldArticles.add(dataContext.testArticles.get(randIndex));
             }
             for (PreparedArticle art : coldArticles) {
                 dataContext.testArticles.remove(art);
             }
         }
 
-        // 4.10.2019
-        // TUTAJ JAKBY ZATRZYMUJE SIĘ PROGRAM -> SPRAWDZIĆ INITKNN
         knnService.InitKnn(coldArticles);
 
         Integer all = 0;
