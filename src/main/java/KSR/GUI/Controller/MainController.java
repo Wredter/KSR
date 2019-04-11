@@ -243,17 +243,24 @@ public class MainController {
             ArrayList<Integer> indexs = new ArrayList<>();
             for (int i = 0; i < amount; i++) {
                 Integer randIndex;
+                Integer iterator = 0;
                 while(true) {
+                    iterator++;
                     randIndex = abs(rand.nextInt() % dataContext.testArticles.size());
                     if(!indexs.contains(randIndex)) {
                         indexs.add(randIndex);
+                        break;
+                    }
+                    if(iterator > 100) {
                         break;
                     }
                 }
                 coldArticles.add(dataContext.testArticles.get(randIndex));
             }
             for (PreparedArticle art : coldArticles) {
-                dataContext.testArticles.remove(art);
+                if(dataContext.testArticles.contains(art)) {
+                    dataContext.testArticles.remove(art);
+                }
             }
         }
 
@@ -267,13 +274,13 @@ public class MainController {
         for (PreparedArticle art : dataContext.testArticles) {
             String predictedTag = knnService.ClassifyArticle(art);
             for (String tag : dataContext.selectedTags) {
-                if (art.tags.get(0) == tag) {
+                if (art.tags.get(0).equals(tag)) {
                     all++;
-                    if (predictedTag == tag) {
+                    if (predictedTag.equals(tag)) {
                         tp++;
                     }
                 } else {
-                    if (predictedTag == tag) {
+                    if (predictedTag.equals(tag)) {
                         tn++;
                     }
                 }
