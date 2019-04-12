@@ -10,12 +10,12 @@ import java.util.Map;
 
 public class OwnFeatureExtractor implements IFeatureExtractor {
     //Opis wektora
-    //- Ilość spółgłosek (3 lub mniej)
+    //- Ilość spółgłosek (3 i mniej)
     //- Ilość spółgłosek (4)
-    //- Ilość spółgłosek  (8 lub więcej)
+    //- Ilość spółgłosek  (8 i więcej)
     //- Ilość słów w artykule
-    //- 7
-    //- 8 l
+    //- Długość słów (3 i mniej)
+    //- Długość słów (4 i więcej)
     @Override
     public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
         ArrayList<String> samo = new ArrayList<>(Arrays.asList("a", "e", "i", "o", "u", "y"));

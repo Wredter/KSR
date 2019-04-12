@@ -1,10 +1,14 @@
 package KSR.Basic;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Result {
     public String tag;
     public Integer all;
     public Integer tp;
     public Integer tn;
+    public String tpPercentage;
 
     public Result(String tag) {
         this.tag = tag;
@@ -23,5 +27,13 @@ public class Result {
 
     public void incTn() {
         this.tn += 1;
+    }
+
+    public void calculateTpPercentage() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        Double temp = (double) this.tp / this.all * 100.0;
+
+        this.tpPercentage = df.format(temp) + "%";
     }
 }

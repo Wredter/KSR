@@ -18,7 +18,6 @@ public interface IFeatureExtractor {
             sum += featureVector.get(tag);
         }
         if (sum <= 0) {
-            System.out.println("Nie da się zaklasyfikować");
             return featureVector.values();
 
         } else {

@@ -305,11 +305,17 @@ public class MainController {
 
     public DefaultTableModel CreateClassificationTableTable() {
         JTable classificationTable = new JTable();
-        DefaultTableModel rowModel = new DefaultTableModel(new String[]{"No.", "Tag", "All", "Tp", "Tn"}, 0);
+        DefaultTableModel rowModel = new DefaultTableModel(new String[]{"No.", "Tag", "All", "Tp", "Tn", "%"}, 0);
+        Result finalResult = new Result("TOTAL");
 
         classificationTable.setModel(rowModel);
 
         for (int i = 0; i < dataContext.classificationResults.size(); i++) {
+            finalResult.all += dataContext.classificationResults.get(i).all;
+            finalResult.tp += dataContext.classificationResults.get(i).tp;
+            finalResult.tn += dataContext.classificationResults.get(i).tn;
+
+           dataContext.classificationResults.get(i).calculateTpPercentage();
             rowModel.addRow(
                     new Object[]{
                             i + 1,
@@ -317,9 +323,22 @@ public class MainController {
                             dataContext.classificationResults.get(i).all,
                             dataContext.classificationResults.get(i).tp,
                             dataContext.classificationResults.get(i).tn,
+                            dataContext.classificationResults.get(i).tpPercentage,
                     }
             );
         }
+
+        finalResult.calculateTpPercentage();
+        rowModel.addRow(
+                new Object[]{
+                        " ",
+                        finalResult.tag,
+                        finalResult.all,
+                        finalResult.tp,
+                        finalResult.tn,
+                        finalResult.tpPercentage,
+                }
+        );
 
         return rowModel;
     }
