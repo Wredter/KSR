@@ -234,13 +234,14 @@ public class MainController {
         ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
         for (String tag : dataContext.selectedTags) {
             ArrayList<Integer> listOfIndex = new ArrayList<>();
-            for (int i = 0; i < amount; i++) {
+            for (int i = 0; i < amount / dataContext.selectedTags.size(); i++) {
                 Integer randIndex;
                 Integer iterator = 0;
                 while (true) {
                     iterator++;
                     randIndex = abs(rand.nextInt() % dataContext.testArticles.size());
-                    if (!listOfIndex.contains(randIndex)) {
+                    if (!listOfIndex.contains(randIndex) && dataContext.testArticles.get(randIndex).tags.contains(tag)) {
+                        coldArticles.add(dataContext.testArticles.get(randIndex));
                         listOfIndex.add(randIndex);
                         break;
                     }
@@ -248,7 +249,6 @@ public class MainController {
                         break;
                     }
                 }
-                coldArticles.add(dataContext.testArticles.get(randIndex));
             }
             for (PreparedArticle art : coldArticles) {
                 if (dataContext.testArticles.contains(art)) {
