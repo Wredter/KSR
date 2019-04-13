@@ -56,7 +56,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="PLACES"/>
+                      <text value="FOOD"/>
                     </properties>
                   </component>
                   <component id="6fee3" class="javax.swing.JLabel">
@@ -74,7 +74,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="usa"/>
+                      <text value="burger salad"/>
                     </properties>
                   </component>
                   <hspacer id="1603a">
@@ -200,7 +200,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="20"/>
+                  <text value="5"/>
                 </properties>
               </component>
               <hspacer id="1d4a9">
@@ -352,7 +352,7 @@
                       </grid>
                     </constraints>
                     <properties>
-                      <text value="20"/>
+                      <text value="4"/>
                     </properties>
                   </component>
                   <hspacer id="d470f">

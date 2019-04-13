@@ -56,7 +56,7 @@ public class MainController {
     }
 
     public void ReadMultipleFiles() {
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "//Data");
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "//Custom");
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("SGM FILES", "sgm");
         fileChooser.setFileFilter(filter);

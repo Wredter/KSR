@@ -143,6 +143,7 @@ public class MainWindow extends JFrame {
     }
 
     public void CreateMainPanelStructure() {
+        MainPanel = new JPanel();
         MainPanel.setLayout(new GridLayout(1, 2));
 
         CreateLeftPanelStructure();

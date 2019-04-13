@@ -11,15 +11,16 @@ import java.util.Map;
 public class OwnFeatureExtractor implements IFeatureExtractor {
     //Opis wektora
     //- Ilość spółgłosek (3 i mniej)
-    //- Ilość spółgłosek (4)
+    //- Ilość spółgłosek (4,5,6,7)
     //- Ilość spółgłosek  (8 i więcej)
     //- Ilość słów w artykule
-    //- Długość słów (3 i mniej)
-    //- Długość słów (4 i więcej)
+    //- ilość liter (3 i mniej)
+    //- Ilość liter (4,5,6,7)
+    //- Ilość liter (8 i więcej)
     @Override
     public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
         ArrayList<String> samo = new ArrayList<>(Arrays.asList("a", "e", "i", "o", "u", "y"));
-        ArrayList<Double> result = new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d));
+        ArrayList<Double> result = new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d));
         ArrayList<String> pom = new ArrayList<>(article.words);
 
         for (String word : pom) {
@@ -36,7 +37,7 @@ public class OwnFeatureExtractor implements IFeatureExtractor {
             }
 
             // 1
-            if (word.length() == 4) {
+            if (word.length() == 4 || word.length() == 5 || word.length() == 6 || word.length() == 7) {
                 result.set(1, result.get(1) + 1);
                 continue;
             }
@@ -49,15 +50,24 @@ public class OwnFeatureExtractor implements IFeatureExtractor {
         }
 
         // 3
-        result.set(3, (double) pom.size());
+        result.set(3, (double) article.words.size());
 
-        for (String word : pom) {
-            // 4,5
+        for (String word : article.words) {
+            // 4
             if (word.length() < 4) {
                 result.set(4, result.get(4) + 1);
                 continue;
-            } else {
-                result.set(5, result.get(5) + 1);
+            }
+
+            // 5
+            if (word.length() == 4 || word.length() == 5 || word.length() == 6 || word.length() == 7) {
+                result.set(5, result.get(4) + 1);
+                continue;
+            }
+
+            // 6
+            if (word.length() > 7) {
+                result.set(6, result.get(5) + 1);
                 continue;
             }
         }
