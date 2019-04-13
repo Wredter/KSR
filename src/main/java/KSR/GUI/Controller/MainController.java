@@ -152,7 +152,7 @@ public class MainController {
 
 
     public void GenerateStopList() {
-        dataContext.stopList = articleOperation.GenerateStopList(dataContext.treningArticles, 0.05);
+        dataContext.stopList = articleOperation.GenerateStopList(dataContext.treningArticles, 0.2);
     }
 
     public void PrepareArticles() {
