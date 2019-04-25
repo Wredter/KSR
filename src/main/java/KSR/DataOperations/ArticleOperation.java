@@ -99,7 +99,7 @@ public class ArticleOperation {
         }
         Set<String> words = stopLista.keySet();
         for (String word : words) {
-            if (stopLista.get(word) > articles.size() * occurancePercentage || stopLista.get(word) == 1) {
+            if ((double)stopLista.get(word) > (double) articles.size() * occurancePercentage || stopLista.get(word) == 1) {
                 result.add(word);
             }
         }
