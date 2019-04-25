@@ -292,7 +292,7 @@ public class MainController {
 
     ArrayList<IFeatureExtractor> PreparePositionFeatureExtractors() {
         ArrayList<IFeatureExtractor> result = new ArrayList<>();
-        result.add(new PositionFeatureExtractor());
+        result.add(new FirstFeatureExtractor());
         return result;
     }
 
