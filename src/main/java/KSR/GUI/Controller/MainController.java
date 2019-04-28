@@ -299,7 +299,7 @@ public class MainController {
 
     ArrayList<IFeatureExtractor> PrepareOwnFeatureExtractors() {
         ArrayList<IFeatureExtractor> result = new ArrayList<>();
-        result.add(new SecondFeatureExtractor());
+        result.add(new OwnFeatureExtractor());
         return result;
     }
 

@@ -1,7 +1,9 @@
 package KSR.FeatureExtractors;
 
 import KSR.Basic.PreparedArticle;
+import KSR.Similarities.BinarySimilarity;
 import KSR.Similarities.ISimilarity;
+import KSR.Similarities.NGramSimilarity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,69 +11,52 @@ import java.util.Collection;
 import java.util.Map;
 
 public class OwnFeatureExtractor implements IFeatureExtractor {
-    //Opis wektora
-    //- Ilość spółgłosek (3 i mniej)
-    //- Ilość spółgłosek (4,5,6,7)
-    //- Ilość spółgłosek  (8 i więcej)
-    //- Ilość słów w artykule
-    //- ilość liter (3 i mniej)
-    //- Ilość liter (4,5,6,7)
-    //- Ilość liter (8 i więcej)
+    // Opis wektora
+    // 1. (rozmiar: liczba tagów, pozycja początkowa: 0 * liczba tagów) - ilość słów kluczowych w pierwszej połowie tekstu
+    // 2. (rozmiar: liczba tagów, pozycja początkowa: 1 * liczba tagów) - ilość słów kluczowych w całym tekscie
+    // 3. (rozmiar: liczba tagów, pozycja początkowa: 2 * liczba tagów) - suma wartości binarnej miary podobieństwa słów kluczowych i słów z artykułu w pierwszych 40% artykułu z uwzględnieniem współczynnika równego 2
+    // 4. (rozmiar: liczba tagów, pozycja początkowa: 3 * liczba tagów) - suma wartości binarnej miary podobieństwa słów kluczowych i słów z artykułu w 100% artykułu
+    // 5. (rozmiar: liczba tagów, pozycja początkowa: 4 * liczba tagów) - suma wartości miary podobieństwa n-gram słów kluczowych i słów z artykułu w pierwszych 40% artykułu z uwzględnieniem współczynnika równego 2
+    // 6. (rozmiar: liczba tagów, pozycja początkowa: 5 * liczba tagów) - suma wartości miary podobieństwa n-gram słów kluczowych i słów z artykułu w 100% artykułu
     @Override
     public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
-        ArrayList<String> samo = new ArrayList<>(Arrays.asList("a", "e", "i", "o", "u", "y"));
-        ArrayList<Double> result = new ArrayList<>(Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d));
-        ArrayList<String> pom = new ArrayList<>(article.words);
+        ArrayList<Double> featureVector = new ArrayList<>();
+        ISimilarity binarySimilarity = new BinarySimilarity();
+        ISimilarity nGramSimilatiry = new NGramSimilarity();
+        SumOfSimilarity sumOfSimilarity = new SumOfSimilarity();
 
-        for (String word : pom) {
-            for (String letter : samo) {
-                if (word.contains(letter)) {
-                    word = word.replaceAll(letter, "");
-                }
-            }
+        // Quantity Feature Extractor (2 vectors)
+        IFeatureExtractor quantityFeature = new QuantityFeatureExtractor();
+        featureVector.addAll(MyNormalize((ArrayList<Double>) quantityFeature.CalculateFeatureValue(article, keyWords, binarySimilarity)));
 
-            // 0
-            if (word.length() < 4) {
-                result.set(0, result.get(0) + 1);
-                continue;
-            }
+        // Sum of similarity for Binary Similarity for 40% of collection
+        featureVector.addAll(MyNormalize((ArrayList<Double>) sumOfSimilarity.CalculateFeatureValue(article, keyWords, binarySimilarity, 0.4, 2)));
 
-            // 1
-            if (word.length() == 4 || word.length() == 5 || word.length() == 6 || word.length() == 7) {
-                result.set(1, result.get(1) + 1);
-                continue;
-            }
+        // Sum of similarity for Binary Similarity for 100% of collection
+        featureVector.addAll(MyNormalize((ArrayList<Double>) sumOfSimilarity.CalculateFeatureValue(article, keyWords, binarySimilarity, 1.0, 1)));
 
-            // 2
-            if (word.length() > 7) {
-                result.set(2, result.get(2) + 1);
-                continue;
-            }
+        // Sum of similarity for N-gram Similarity for 40% of collection
+        featureVector.addAll(MyNormalize((ArrayList<Double>) sumOfSimilarity.CalculateFeatureValue(article, keyWords, nGramSimilatiry, 0.4, 2)));
+
+        // Sum of similarity for N-gram Similarity for 100% of collection
+        featureVector.addAll(MyNormalize((ArrayList<Double>) sumOfSimilarity.CalculateFeatureValue(article, keyWords, nGramSimilatiry, 1.0, 1)));
+
+        return featureVector;
+    }
+
+    private ArrayList<Double> MyNormalize(ArrayList<Double> input) {
+        Double sum = 0d;
+        ArrayList<Double> result = new ArrayList<>();
+        for (Double value : input) {
+            sum += value;
         }
-
-        // 3
-        result.set(3, (double) article.words.size());
-
-        for (String word : article.words) {
-            // 4
-            if (word.length() < 4) {
-                result.set(4, result.get(4) + 1);
-                continue;
+        if (sum == 0) {
+            return input;
+        } else {
+            for (Double value : input) {
+                result.add(value / sum);
             }
-
-            // 5
-            if (word.length() == 4 || word.length() == 5 || word.length() == 6 || word.length() == 7) {
-                result.set(5, result.get(4) + 1);
-                continue;
-            }
-
-            // 6
-            if (word.length() > 7) {
-                result.set(6, result.get(5) + 1);
-                continue;
-            }
+            return result;
         }
-
-        return result;
     }
 }
