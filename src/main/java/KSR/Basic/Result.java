@@ -9,6 +9,8 @@ public class Result {
     public Integer tp;
     public Integer tn;
     public String tpPercentage;
+    public String recall;
+    public String precision;
 
     public Result(String tag) {
         this.tag = tag;
@@ -35,5 +37,21 @@ public class Result {
         Double temp = (double) this.tp / this.all * 100.0;
 
         this.tpPercentage = df.format(temp) + "%";
+    }
+
+    public void calculateRecallValue() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        Double temp = (double) this.tp / this.all * 100.0;
+
+        this.recall = df.format(temp) + "%";
+    }
+
+    public void calculatePrecisionValue() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        Double temp = (double) this.tp / (this.tp + this.tn) * 100.0;
+
+        this.precision = df.format(temp) + "%";
     }
 }

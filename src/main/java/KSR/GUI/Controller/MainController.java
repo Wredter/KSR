@@ -30,7 +30,7 @@ import static java.lang.StrictMath.abs;
 public class MainController {
     public DataContext dataContext;
     private ArticleOperation articleOperation;
-    private KNNService knnService;
+    //private KNNService knnService;
 
     public MainController() {
         dataContext = new DataContext();
@@ -56,7 +56,7 @@ public class MainController {
     }
 
     public void ReadMultipleFiles() {
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "//Custom");
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
         fileChooser.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("SGM FILES", "sgm");
         fileChooser.setFileFilter(filter);
@@ -198,6 +198,7 @@ public class MainController {
     }
 
     public void Classify(String metric, String similarity, String k, String amountOfStartData, String extractionMethod) {
+        dataContext.classificationResults = new ArrayList<>();
         IMetric selectedMetric;
         ISimilarity selectedSimilarity;
         Integer paramK = Integer.parseInt(k);
@@ -228,7 +229,7 @@ public class MainController {
         }
 
         FeaturesService featuresService = new FeaturesService(dataContext.keyWordsMap, selectedSimilarity, featureExtractors);
-        knnService = new KNNService(featuresService, selectedMetric, paramK);
+        KNNService knnService = new KNNService(featuresService, selectedMetric, paramK);
 
         // Prepate to "Cold Start"
         ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
@@ -250,11 +251,11 @@ public class MainController {
                     }
                 }
             }
-            for (PreparedArticle art : coldArticles) {
-                if (dataContext.testArticles.contains(art)) {
-                    dataContext.testArticles.remove(art);
-                }
-            }
+//            for (PreparedArticle art : coldArticles) {
+//                if (dataContext.testArticles.contains(art)) {
+//                    dataContext.testArticles.remove(art);
+//                }
+//            }
         }
 
         knnService.InitKnn(coldArticles);
@@ -339,6 +340,29 @@ public class MainController {
                         finalResult.tpPercentage,
                 }
         );
+
+        return rowModel;
+    }
+
+    public DefaultTableModel CreateRecallAndPrecisionTableTable() {
+        JTable recallAndPrecisionTable = new JTable();
+        DefaultTableModel rowModel = new DefaultTableModel(new String[]{"No.", "Tag", "Recall", "Precision"}, 0);
+        Result finalResult = new Result("TOTAL");
+
+        for (int i = 0; i < dataContext.classificationResults.size(); i++) {
+
+            dataContext.classificationResults.get(i).calculateRecallValue();
+            dataContext.classificationResults.get(i).calculatePrecisionValue();
+
+            rowModel.addRow(
+                    new Object[]{
+                            i + 1,
+                            dataContext.classificationResults.get(i).tag,
+                            dataContext.classificationResults.get(i).recall,
+                            dataContext.classificationResults.get(i).precision,
+                    }
+            );
+        }
 
         return rowModel;
     }

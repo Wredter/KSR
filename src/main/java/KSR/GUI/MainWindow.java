@@ -23,6 +23,9 @@ public class MainWindow extends JFrame {
     private JTextField categoryTextField;
     private JTextField tagsTextField;
     private JButton filterButton;
+    private JRadioButton placesRadioButton;
+    private JRadioButton topicsRadioButton;
+    private JRadioButton foodRadioButton;
 
     private JPanel DataRightPanel;
     private JButton loadStopListButton;
@@ -57,6 +60,7 @@ public class MainWindow extends JFrame {
 
     private JPanel ClassificationResultPanel;
     private JTable classificationResultTable;
+    private JTable recallAndPrecisionTable;
 
 
     public MainWindow() {
@@ -82,6 +86,19 @@ public class MainWindow extends JFrame {
         prepareButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if(placesRadioButton.isSelected()) {
+                    categoryTextField.setText("PLACES");
+                    tagsTextField.setText("usa uk japan canada west-germany france");
+                }
+                if(topicsRadioButton.isSelected()) {
+                    categoryTextField.setText("TOPICS");
+                    tagsTextField.setText(" earn grain acq");
+                }
+                if(foodRadioButton.isSelected()) {
+                    categoryTextField.setText("FOOD");
+                    tagsTextField.setText("burger salad");
+                }
 
                 // Filtruj
                 mainController.FilterMultipleFiles(categoryTextField, tagsTextField);
@@ -138,6 +155,7 @@ public class MainWindow extends JFrame {
                 mainController.Classify((String) metricComboBox.getSelectedItem(), (String) similaritiesComboBox.getSelectedItem(), parameterKTextField.getText(), amountOfStartDataTextField.getText(), extractionMethod);
 
                 classificationResultTable.setModel(mainController.CreateClassificationTableTable());
+                recallAndPrecisionTable.setModel(mainController.CreateRecallAndPrecisionTableTable());
             }
         });
     }
@@ -179,8 +197,8 @@ public class MainWindow extends JFrame {
         extractionMethodCcomboBox.addItem("Częstotliwości występowania słów");
         extractionMethodCcomboBox.addItem("Umiejscowienia słów");
 
-        metricComboBox.addItem("Czebyszewa");
         metricComboBox.addItem("Euklidesowa");
+        metricComboBox.addItem("Czebyszewa");
         metricComboBox.addItem("Uliczna");
 
         similaritiesComboBox.addItem("Binarna");
