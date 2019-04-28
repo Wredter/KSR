@@ -14,10 +14,10 @@ public class OwnFeatureExtractor implements IFeatureExtractor {
     // Opis wektora
     // 1. (rozmiar: liczba tagów, pozycja początkowa: 0 * liczba tagów) - ilość słów kluczowych w pierwszej połowie tekstu
     // 2. (rozmiar: liczba tagów, pozycja początkowa: 1 * liczba tagów) - ilość słów kluczowych w całym tekscie
-    // 3. (rozmiar: liczba tagów, pozycja początkowa: 2 * liczba tagów) - suma wartości binarnej miary podobieństwa słów kluczowych i słów z artykułu w pierwszych 40% artykułu z uwzględnieniem współczynnika równego 2
-    // 4. (rozmiar: liczba tagów, pozycja początkowa: 3 * liczba tagów) - suma wartości binarnej miary podobieństwa słów kluczowych i słów z artykułu w 100% artykułu
-    // 5. (rozmiar: liczba tagów, pozycja początkowa: 4 * liczba tagów) - suma wartości miary podobieństwa n-gram słów kluczowych i słów z artykułu w pierwszych 40% artykułu z uwzględnieniem współczynnika równego 2
-    // 6. (rozmiar: liczba tagów, pozycja początkowa: 5 * liczba tagów) - suma wartości miary podobieństwa n-gram słów kluczowych i słów z artykułu w 100% artykułu
+    // 3. (rozmiar: liczba tagów, pozycja początkowa: 2 * liczba tagów) - suma wartości binarnej miary podobieństwa słów kluczowych i słów z artykułu dla poszczególnych tagów w pierwszych dla każdego tagu  40% artykułu z uwzględnieniem współczynnika równego 2
+    // 4. (rozmiar: liczba tagów, pozycja początkowa: 3 * liczba tagów) - suma wartości binarnej miary podobieństwa słów kluczowych i słów z artykułu dla poszczególnych tagów w 100% artykułu
+    // 5. (rozmiar: liczba tagów, pozycja początkowa: 4 * liczba tagów) - suma wartości miary podobieństwa n-gram słów kluczowych i słów z artykułu dla poszczególnych tagów w pierwszych 40% artykułu z uwzględnieniem współczynnika równego 2
+    // 6. (rozmiar: liczba tagów, pozycja początkowa: 5 * liczba tagów) - suma wartości miary podobieństwa n-gram słów kluczowych i słów z artykułudla poszczególnych tagów w 100% artykułu
     @Override
     public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
         ArrayList<Double> featureVector = new ArrayList<>();
