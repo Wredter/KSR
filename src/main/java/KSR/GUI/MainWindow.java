@@ -93,7 +93,7 @@ public class MainWindow extends JFrame {
                 }
                 if(topicsRadioButton.isSelected()) {
                     categoryTextField.setText("TOPICS");
-                    tagsTextField.setText(" earn grain acq");
+                    tagsTextField.setText("earn grain acq");
                 }
                 if(foodRadioButton.isSelected()) {
                     categoryTextField.setText("FOOD");
@@ -129,15 +129,7 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedExtractor = (String) extractionMethodCcomboBox.getSelectedItem();
-                if (selectedExtractor == "Liczby słów") {
-                    selectedExtractor = "WordsNumber";
-                } else if (selectedExtractor == "Częstotliwości występowania słów") {
-                    selectedExtractor = "WordsFrequency";
-                } else {
-                    selectedExtractor = "WordPlacement";
-                }
                 mainController.Train(keyWordsNumTextField, selectedExtractor);
-
                 keyWordsTable.setModel(mainController.CreateKeyWordsTable());
             }
         });
@@ -193,9 +185,9 @@ public class MainWindow extends JFrame {
         ClassificationPanel.add(ClassificationRightPanel);
         LeftPanel.add(ClassificationPanel);
 
-        extractionMethodCcomboBox.addItem("Liczby słów");
-        extractionMethodCcomboBox.addItem("Częstotliwości występowania słów");
-        extractionMethodCcomboBox.addItem("Umiejscowienia słów");
+        extractionMethodCcomboBox.addItem("TermFrequency");
+        extractionMethodCcomboBox.addItem("DocumentFrequency");
+        //extractionMethodCcomboBox.addItem("Umiejscowienia słów");
 
         metricComboBox.addItem("Euklidesowa");
         metricComboBox.addItem("Czebyszewa");

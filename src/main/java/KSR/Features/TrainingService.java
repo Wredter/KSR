@@ -35,10 +35,10 @@ public class TrainingService {
                     .filter(t -> t.tags.contains(tag))
                     .collect(Collectors.toCollection(ArrayList::new));
 
-            if (this.selectedExtractor == "WordsNumber") {
+            if (this.selectedExtractor.equals("TermFrequency")) {
                 wordsMap = this.CalculateWordsNumber(filteredArticles);
-            } else if (this.selectedExtractor == "WordsFrequency") {
-                wordsMap = this.CalculateWordFrequency(filteredArticles);
+            } else if (this.selectedExtractor.equals("DocumentFrequency")) {
+                wordsMap = this.CalculateDocumentFrequency(filteredArticles);
             } else {
                 wordsMap = this.CalculateWordPlacement(filteredArticles);
             }
@@ -82,8 +82,32 @@ public class TrainingService {
                 result.put(w, result.get(w) + 1.0);
             }
         }
+        return result;
+    }
 
+    private Map<String, Double> CalculateDocumentFrequency(ArrayList<PreparedArticle> selectedArticles) {
+        Map<String, Double> result = new HashMap<>();
+        ArrayList<String> allwords = new ArrayList<>();
 
+        for (PreparedArticle article : selectedArticles) {
+            for (String word : article.words) {
+                allwords.add(word);
+            }
+        }
+
+        ArrayList<String> distinctWords = allwords.stream()
+                .distinct()
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        for (String word : distinctWords) {
+            result.put(word, 0.0);
+        }
+
+        for (PreparedArticle article : selectedArticles) {
+            for (String w : article.words.stream().distinct().collect(Collectors.toCollection(ArrayList::new))) {
+                result.put(w, result.get(w) + 1.0);
+            }
+        }
         return result;
     }
 
