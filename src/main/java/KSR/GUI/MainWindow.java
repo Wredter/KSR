@@ -165,6 +165,7 @@ public class MainWindow extends JFrame {
 
     public void CreateLeftPanelStructure() {
         TitledBorder title;
+        LeftPanel = new JPanel();
         LeftPanel.setLayout(new GridLayout(3, 1));
 
         title = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Dane");

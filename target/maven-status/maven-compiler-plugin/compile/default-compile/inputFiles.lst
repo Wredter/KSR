@@ -2,6 +2,7 @@ C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Similarities\ISimilari
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\DataOperations\DataExtarctor.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\GUI\Model\DataContext.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Classification\KNNService.java
+C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\FeatureExtractors\SumOfSimilarity.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Features\TrainingService.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Features\FeaturesService.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Similarities\NGramSimilarity.java
@@ -11,7 +12,9 @@ C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\GUI\MainWindow.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\FeatureExtractors\QuantityFeatureExtractor.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Basic\Result.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Metrics\TaximanMetric.java
+C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\FeatureExtractors\FirstFeatureExtractor.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\FeatureExtractors\OwnFeatureExtractor.java
+C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\FeatureExtractors\SecondFeatureExtractor.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\DataOperations\ArticleOperation.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Basic\KeyWord.java
 C:\Users\Windows\Documents\KSR\KSR_Repo\src\main\java\KSR\Basic\PreparedArticle.java
