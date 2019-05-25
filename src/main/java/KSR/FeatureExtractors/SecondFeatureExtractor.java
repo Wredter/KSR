@@ -56,6 +56,7 @@ public class SecondFeatureExtractor implements IFeatureExtractor {
         }
         extractionResult.addAll(MyNormalize(firstFeatureExtractionResult));
         extractionResult.addAll(MyNormalize(secondFeatureExtractionResult));
+
         return extractionResult;
     }
 

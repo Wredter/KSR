@@ -10,6 +10,7 @@ public class PositionFeatureExtractor implements IFeatureExtractor {
     public Collection<Double> CalculateFeatureValue(PreparedArticle article, Map<String, ArrayList<String>> keyWords, ISimilarity similarity) {
         Map<String, Double> featureVector = new HashMap<>();
         Set<String> tags = keyWords.keySet();
+        ArrayList<Double> result = new ArrayList<>();
         Double sim;
         int counter = article.words.size();
         for (String tag : tags) {
@@ -25,8 +26,12 @@ public class PositionFeatureExtractor implements IFeatureExtractor {
             }
             counter--;
         }
+        for(String Key : featureVector.keySet()){
+            result.add(featureVector.get(Key));
+        }
 
-        return IFeatureExtractor.Normalize(featureVector);
+
+        return result;
     }
 
 }
