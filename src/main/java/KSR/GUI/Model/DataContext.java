@@ -1,9 +1,6 @@
 package KSR.GUI.Model;
 
-import KSR.Basic.Article;
-import KSR.Basic.KeyWord;
-import KSR.Basic.PreparedArticle;
-import KSR.Basic.Result;
+import KSR.Basic.*;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,6 +25,8 @@ public class DataContext {
     public Map<String, ArrayList<String>> keyWordsMap;
     // List of classification results
     public ArrayList<Result> classificationResults;
+    // Cache
+    public ArrayList<ClassificationCache> caches;
 
     public DataContext() {
         filePath = "";
@@ -36,5 +35,7 @@ public class DataContext {
         keyWords = new ArrayList<>();
         filePaths = new ArrayList<>();
         classificationResults = new ArrayList<>();
+        caches = new ArrayList<>();
+        caches.add(new ClassificationCache("m", 0, 0, "s", "f"));
     }
 }

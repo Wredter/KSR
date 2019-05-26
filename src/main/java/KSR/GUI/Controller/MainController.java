@@ -1,5 +1,6 @@
 package KSR.GUI.Controller;
 
+import KSR.Basic.ClassificationCache;
 import KSR.Basic.KeyWord;
 import KSR.Basic.PreparedArticle;
 import KSR.Basic.Result;
@@ -30,11 +31,13 @@ import static java.lang.StrictMath.abs;
 public class MainController {
     public DataContext dataContext;
     private ArticleOperation articleOperation;
+    ClassificationCache cache;
     //private KNNService knnService;
 
     public MainController() {
         dataContext = new DataContext();
         articleOperation = new ArticleOperation();
+        cache = new ClassificationCache();
     }
 
     public void HardReset() {
@@ -198,13 +201,12 @@ public class MainController {
     }
 
     public void Classify(String metric, String similarity, String k, String amountOfStartData, String extractionMethod) {
-        dataContext.classificationResults = new ArrayList<>();
         IMetric selectedMetric;
         ISimilarity selectedSimilarity;
         Integer paramK = Integer.parseInt(k);
         Integer amount = Integer.parseInt(amountOfStartData);
         ArrayList<IFeatureExtractor> featureExtractors;
-       // Random rand = new Random();
+        // Random rand = new Random();
 
         if (metric.equals("Czebyszewa")) {
             selectedMetric = new ChebyshevMetric();
@@ -228,10 +230,27 @@ public class MainController {
             featureExtractors = PrepareOwnFeatureExtractors();
         }
 
-        FeaturesService featuresService = new FeaturesService(dataContext.keyWordsMap, selectedSimilarity, featureExtractors);
-        KNNService knnService = new KNNService(featuresService, selectedMetric, paramK);
+        ClassificationCache currentCache = new ClassificationCache(metric, paramK, amount, similarity, extractionMethod);
+        Boolean currentCachceIsInCaches = false;
+        Integer currentCacheIndex = 0;
+        for (int i = 0; i < dataContext.caches.size(); i++) {
+            if (dataContext.caches.get(i).toString().equals(currentCache.toString())) {
+                currentCachceIsInCaches = true;
+                currentCacheIndex = i;
+            }
+        }
+        if (currentCachceIsInCaches == false) {
+            dataContext.caches.add(currentCache);
+        }
 
-        // Prepate to "Cold Start"
+        if (currentCachceIsInCaches) {
+            dataContext.classificationResults = dataContext.caches.get(currentCacheIndex).classificationResults;
+        } else {
+
+            FeaturesService featuresService = new FeaturesService(dataContext.keyWordsMap, selectedSimilarity, featureExtractors);
+            KNNService knnService = new KNNService(featuresService, selectedMetric, paramK);
+
+            // Prepate to "Cold Start"
 //        ArrayList<PreparedArticle> coldArticles = new ArrayList<>();
 //        for (String tag : dataContext.selectedTags) {
 //            ArrayList<Integer> listOfIndex = new ArrayList<>();
@@ -266,12 +285,12 @@ public class MainController {
                             listOfIndex.add(index);
                             break;
                         }
-                            if (iterator > 100) {
-                                break;
-                            }
+                        if (iterator > 100) {
+                            break;
                         }
                     }
                 }
+            }
 //            for (PreparedArticle art : coldArticles) {
 //                if (dataContext.testArticles.contains(art)) {
 //                    dataContext.testArticles.remove(art);
@@ -279,32 +298,36 @@ public class MainController {
 //            }
 
 
+            knnService.InitKnn(coldArticles);
 
-        knnService.InitKnn(coldArticles);
-
-        // create results
-        for (String tag : dataContext.selectedTags) {
-            dataContext.classificationResults.add(new Result(tag));
-        }
-
-        // Start classification
-        for (PreparedArticle art : dataContext.testArticles) {
-            String predictedTag = knnService.ClassifyArticle(art);
+            dataContext.classificationResults = new ArrayList<>();
+            // create results
             for (String tag : dataContext.selectedTags) {
-                if (art.tags.get(0).equals(tag)) {
-                    dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incAll();
-                    if (predictedTag.equals(tag)) {
-                        dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incTp();
-                    }
-                } else {
-                    if (predictedTag.equals(tag)) {
-                        dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incTn();
+                dataContext.classificationResults.add(new Result(tag));
+            }
+
+            // Start classification
+            for (PreparedArticle art : dataContext.testArticles) {
+                String predictedTag = knnService.ClassifyArticle(art);
+                for (String tag : dataContext.selectedTags) {
+                    if (art.tags.get(0).equals(tag)) {
+                        dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incAll();
+                        if (predictedTag.equals(tag)) {
+                            dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incTp();
+                        }
+                    } else {
+                        if (predictedTag.equals(tag)) {
+                            dataContext.classificationResults.stream().filter(t -> t.tag.equals(tag)).findFirst().get().incTn();
+                        }
                     }
                 }
             }
-        }
 
+            dataContext.caches.get(dataContext.caches.size() - 1).setResult(dataContext.classificationResults);
+        }
     }
+
+
 
 
     ArrayList<IFeatureExtractor> PrepareQuantityFeatureExtractors() {
@@ -338,7 +361,7 @@ public class MainController {
             finalResult.tp += dataContext.classificationResults.get(i).tp;
             finalResult.tn += dataContext.classificationResults.get(i).tn;
 
-           dataContext.classificationResults.get(i).calculateTpPercentage();
+            dataContext.classificationResults.get(i).calculateTpPercentage();
             rowModel.addRow(
                     new Object[]{
                             i + 1,
