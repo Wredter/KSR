@@ -75,6 +75,21 @@ public class KNNService {
                 }
             }
         }
+
+        Boolean isUSA = false;
+        Integer x = 0;
+        for (Map.Entry me1 : distinctNeighborsCount.entrySet()) {
+            x+=1;
+            for (Map.Entry me2 : distinctNeighborsCount.entrySet()) {
+                if (me1.getValue() == me2.getValue()) {
+                    if (!me1.getKey().equals(me2.getKey())&&x==1) {
+                        isUSA = true;
+                    }
+                }
+            }
+        }
+
+
         distinctNeighborsCount = distinctNeighborsCount.entrySet()
                 .stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
@@ -83,8 +98,14 @@ public class KNNService {
                         toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2, LinkedHashMap::new)
                 );
 
+        if (isUSA) {
+            if(isUSA) {
 
-        classifyArticle.predictedTag = distinctNeighborsCount.entrySet().stream().findFirst().get().getKey();
+            }
+        } else {
+            classifyArticle.predictedTag = distinctNeighborsCount.entrySet().stream().findFirst().get().getKey();
+        }
+
         classifiedArticles.add(classifyArticle);
         return classifyArticle.predictedTag;
     }

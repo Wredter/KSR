@@ -1,9 +1,10 @@
 package KSR.Basic;
 
+import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-public class Result {
+public class Result implements Serializable {
     public String tag;
     public Integer all;
     public Integer tp;
@@ -32,7 +33,7 @@ public class Result {
     }
 
     public void calculateTpPercentage() {
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.#");
         df.setRoundingMode(RoundingMode.CEILING);
         Double temp = (double) this.tp / this.all * 100.0;
 

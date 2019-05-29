@@ -2,10 +2,11 @@ package KSR.GUI.Model;
 
 import KSR.Basic.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class DataContext {
+public class DataContext implements Serializable {
     // Path to selected file
     public String filePath;
     public ArrayList<String> filePaths;

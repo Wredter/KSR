@@ -2,9 +2,10 @@ package KSR.Basic;
 
 import KSR.DataOperations.ArticleOperation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PreparedArticle {
+public class PreparedArticle implements Serializable {
     public ArrayList<String> words;
     public ArrayList<String> tags;
 

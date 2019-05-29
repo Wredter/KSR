@@ -22,7 +22,7 @@ import KSR.Similarities.NGramSimilarity;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -243,6 +243,7 @@ public class MainController {
             dataContext.caches.add(currentCache);
         }
 
+        currentCachceIsInCaches = false;
         if (currentCachceIsInCaches) {
             dataContext.classificationResults = dataContext.caches.get(currentCacheIndex).classificationResults;
         } else {
@@ -327,8 +328,33 @@ public class MainController {
         }
     }
 
+    public void Save() {
+        try{
+            FileOutputStream file = new FileOutputStream("dataContext.ser");
+            ObjectOutputStream out = new ObjectOutputStream(file);
 
+            out.writeObject(dataContext);
 
+            out.close();
+            file.close();
+        } catch (IOException ex) {
+            System.out.println("IOeception");
+        }
+    }
+
+    public void Read() {
+        try{
+            FileInputStream file = new FileInputStream("dataContext.ser");
+            ObjectInputStream in = new ObjectInputStream(file);
+
+            dataContext = (DataContext) in.readObject();
+
+            in.close();
+            file.close();
+        } catch (Exception ex) {
+            System.out.println("Exception");
+        }
+    }
 
     ArrayList<IFeatureExtractor> PrepareQuantityFeatureExtractors() {
         ArrayList<IFeatureExtractor> result = new ArrayList<>();

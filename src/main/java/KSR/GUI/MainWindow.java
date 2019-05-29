@@ -61,6 +61,8 @@ public class MainWindow extends JFrame {
     private JPanel ClassificationResultPanel;
     private JTable classificationResultTable;
     private JTable recallAndPrecisionTable;
+    private JButton saveButton;
+    private JButton readButton;
 
 
     public MainWindow() {
@@ -148,6 +150,18 @@ public class MainWindow extends JFrame {
 
                 classificationResultTable.setModel(mainController.CreateClassificationTableTable());
                 recallAndPrecisionTable.setModel(mainController.CreateRecallAndPrecisionTableTable());
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.Save();
+            }
+        });
+        readButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainController.Read();
             }
         });
     }
